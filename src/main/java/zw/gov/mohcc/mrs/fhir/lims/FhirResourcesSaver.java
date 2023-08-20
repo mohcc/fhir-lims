@@ -5,9 +5,9 @@ import java.util.List;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Resource;
 
-public class FhirResoucesSaver {
+public class FhirResourcesSaver {
     
-    private FhirResoucesSaver(){
+    private FhirResourcesSaver(){
         
     }
     

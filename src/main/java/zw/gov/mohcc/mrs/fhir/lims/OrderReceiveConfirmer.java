@@ -1,6 +1,6 @@
 package zw.gov.mohcc.mrs.fhir.lims;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
+import java.util.Collections;
 import org.hl7.fhir.r4.model.Task;
 
 public class OrderReceiveConfirmer {
@@ -8,10 +8,14 @@ public class OrderReceiveConfirmer {
     private OrderReceiveConfirmer(){        
     }
     
+    /**Note:: you need to confirm the receipt of this electronic Task(Order)
+     * as soon as you save it in your local (lims) database**/
     public static void confirmTaskReceived(Task task){
-        IGenericClient client=FhirClientUtility.getFhirClient();
+        
         task.setStatus(Task.TaskStatus.RECEIVED);
-        client.update().resource(task).execute();        
+        
+        //Save this Task/Order in the Shared Health Record (SHR):: OpenHIE
+        FhirResourcesSaver.saveFhirResources(Collections.singletonList(task));
     }
     
 }

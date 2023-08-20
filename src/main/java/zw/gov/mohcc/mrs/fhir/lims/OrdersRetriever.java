@@ -6,9 +6,9 @@ import java.util.List;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Task;
 
-public class RequestedOrdersRetriever {
+public class OrdersRetriever {
     
-    private RequestedOrdersRetriever(){
+    private OrdersRetriever(){
         
     }
     

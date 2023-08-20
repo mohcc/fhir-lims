@@ -21,6 +21,7 @@ public class OrderResultIssuer {
 
     public static void issueResult(Task task) {
 
+        //We call this Result Bundle
         List<Resource> fhirResources = new ArrayList<>();
 
         task.setStatus(Task.TaskStatus.COMPLETED);
@@ -28,38 +29,42 @@ public class OrderResultIssuer {
 
         DiagnosticReport diagnosticReport = getDiagnosticReport(task);
         String diagnosticReportId = diagnosticReport.getIdElement().getIdPart();
-        Reference diagnosticReportReference = getReference(diagnosticReportId, "DiagnosticReport");
+        Reference diagnosticReportReference = FhirReferenceCreator.getReference(diagnosticReportId, "DiagnosticReport");
         output.setValue(diagnosticReportReference);
         task.setOutput(Collections.singletonList(output));
 
         Observation observation = getObservation(task);        
 
         String observationId = observation.getIdElement().getIdPart();
-        Reference observationReference = getReference(observationId, "Observation");
+        Reference observationReference = FhirReferenceCreator.getReference(observationId, "Observation");
         diagnosticReport.setResult(Collections.singletonList(observationReference));
 
+        //NB:: Start with Observations, followed by Diagnostic Reports, and finally Tasks
         fhirResources.add(observation);
         fhirResources.add(diagnosticReport);
         fhirResources.add(task);
-
-        FhirResoucesSaver.saveFhirResources(fhirResources);
+        
+        
+        //Save this Result Bundle in the Shared Health Record (SHR):: OpenHIE
+        FhirResourcesSaver.saveFhirResources(fhirResources);
 
     }
 
     public static DiagnosticReport getDiagnosticReport(Task task) {
         DiagnosticReport diagnosticReport = new DiagnosticReport();
         diagnosticReport.setId(UUID.randomUUID().toString());
+        //This is hard coded for now as an example
         diagnosticReport.setCode(new CodeableConcept(new Coding("http://loinc.org", "22748-8", "")));
         diagnosticReport.setSubject(task.getFor());
         return diagnosticReport;
     }
 
     //Analysis
-    public static Observation getObservation(Task task) {
+    public static Observation getObservation(Task task) {        
         Observation observation = new Observation();
         observation.setId(UUID.randomUUID().toString());
         observation.setSubject(task.getFor());
-        //Add Test Analysis Code
+        //Add Test Analysis Code.  //This is hard coded for now as an example
         observation.setCode(new CodeableConcept(new Coding("http://loinc.org", "22748-8", "")));
         observation.setValue(new Quantity().setValue(Math.random() * 500).setUnit("UI/L"));
         return observation;
@@ -67,11 +72,6 @@ public class OrderResultIssuer {
 
     
 
-     private static Reference getReference(String id, String type) {
-        Reference reference = new Reference();      
-        reference.setReference(type + "/" + id);
-        reference.setType(type);
-        return reference;
-    }
+    
 
 }
