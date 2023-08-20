@@ -18,12 +18,14 @@ public class FhirResourcesSaver {
 
         Bundle transactionBundle = new Bundle();
         transactionBundle.setType(Bundle.BundleType.TRANSACTION);
+        
         for (Resource resource : resources) {
             Bundle.BundleEntryComponent component = transactionBundle.addEntry();
             component.setResource(resource);
             component.getRequest().setUrl(getRequestUrl(resource))
                     .setMethod(Bundle.HTTPVerb.PUT);
         }
+        
         client.transaction().withBundle(transactionBundle).execute();
     }
     

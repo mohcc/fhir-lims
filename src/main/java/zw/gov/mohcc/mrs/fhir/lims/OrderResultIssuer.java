@@ -33,7 +33,7 @@ public class OrderResultIssuer {
         output.setValue(diagnosticReportReference);
         task.setOutput(Collections.singletonList(output));
 
-        Observation observation = getObservation(task);        
+        Observation observation = getObservation(task);
 
         String observationId = observation.getIdElement().getIdPart();
         Reference observationReference = FhirReferenceCreator.getReference(observationId, "Observation");
@@ -43,8 +43,7 @@ public class OrderResultIssuer {
         fhirResources.add(observation);
         fhirResources.add(diagnosticReport);
         fhirResources.add(task);
-        
-        
+
         //Save this Result Bundle in the Shared Health Record (SHR):: OpenHIE
         FhirResourcesSaver.saveFhirResources(fhirResources);
 
@@ -60,18 +59,17 @@ public class OrderResultIssuer {
     }
 
     //Analysis
-    public static Observation getObservation(Task task) {        
+    public static Observation getObservation(Task task) {
+        //Note:: Here I am randomly generating the result. In reality this should come from your Lims system. 
+        double result = Math.random() * 500;
+
         Observation observation = new Observation();
         observation.setId(UUID.randomUUID().toString());
         observation.setSubject(task.getFor());
         //Add Test Analysis Code.  //This is hard coded for now as an example
         observation.setCode(new CodeableConcept(new Coding("http://loinc.org", "22748-8", "")));
-        observation.setValue(new Quantity().setValue(Math.random() * 500).setUnit("UI/L"));
+        observation.setValue(new Quantity().setValue(result).setUnit("UI/L"));
         return observation;
     }
-
-    
-
-    
 
 }

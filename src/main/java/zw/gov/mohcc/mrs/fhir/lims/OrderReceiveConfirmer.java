@@ -3,6 +3,7 @@ package zw.gov.mohcc.mrs.fhir.lims;
 import java.util.Collections;
 import org.hl7.fhir.r4.model.Task;
 
+//Order receipt confirmer
 public class OrderReceiveConfirmer {
     
     private OrderReceiveConfirmer(){        

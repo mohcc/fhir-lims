@@ -11,16 +11,17 @@ import org.hl7.fhir.r4.model.Specimen;
 import org.hl7.fhir.r4.model.Task;
 
 public class TaskAssociatedObjects {
-    
-    public void getTaskAssociatedObjects(Task task){
+
+    //A Task is Lab Order
+    public void getTaskAssociatedObjects(Task task) {
         Patient patient;
         Location laboratory;
         Location facility;
-        Encounter encounter=null;
+        Encounter encounter = null;
         Specimen specimen; //Sample
-        ServiceRequest serviceRequest=null; 
+        ServiceRequest serviceRequest = null; //Test
 
-        IGenericClient fhirClient=FhirClientUtility.getFhirClient();
+        IGenericClient fhirClient = FhirClientUtility.getFhirClient();
 
         String taskId = task.getIdElement().getIdPart();
 
@@ -122,9 +123,6 @@ public class TaskAssociatedObjects {
             }
         }
 
-    
-
     }
-    
-    
+
 }
