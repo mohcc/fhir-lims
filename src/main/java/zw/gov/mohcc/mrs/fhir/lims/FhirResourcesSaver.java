@@ -11,7 +11,7 @@ public class FhirResourcesSaver {
         
     }
     
-    
+    //Save FHIR Resources (Task, Observation, Diagnostic Report etc) in the Shared Health Record (SHR):: OpenHIE
     public static void saveFhirResources(List<Resource> resources) {
 
         IGenericClient client = FhirClientUtility.getFhirClient();
