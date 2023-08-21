@@ -7,7 +7,8 @@ public class LocationClientTranslator {
 
     public static Client toClient(Location location) {
         Client limsClient = new Client();
-        
+        limsClient.setClientId(location.getIdElement().getIdPart());
+        limsClient.setName(location.getName());
         return limsClient;
     }
 

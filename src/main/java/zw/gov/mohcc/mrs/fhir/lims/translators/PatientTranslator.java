@@ -19,12 +19,7 @@ public class PatientTranslator {
         zw.gov.mohcc.mrs.fhir.lims.entities.Patient limsPatient = new 
         zw.gov.mohcc.mrs.fhir.lims.entities.Patient();
 
-        String clientPatientId = fhirPatient.getIdentifier().stream()
-                .filter(i -> i.hasSystem() && i.getSystem().equals("urn:impilo:uid"))
-                .map(Identifier::getValue)
-                .findFirst().orElse(null);
-
-        limsPatient.setClientPatientId(clientPatientId);
+        limsPatient.setClientPatientId(fhirPatient.getIdElement().getIdPart());
 
         if (fhirPatient.hasName()) {
             HumanName humanName = fhirPatient.getName().get(0);
