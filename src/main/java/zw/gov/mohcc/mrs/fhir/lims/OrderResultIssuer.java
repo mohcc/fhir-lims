@@ -58,7 +58,7 @@ public class OrderResultIssuer {
         return diagnosticReport;
     }
 
-    //Analysis
+    //Lab Analyses
     public static Observation getObservation(Task task) {
         //Note:: Here I am randomly generating the result. In reality this should come from your Lims system. 
         double result = Math.random() * 500;

@@ -14,10 +14,10 @@ public class TaskAssociatedObjects {
 
     //A Task is Lab Order
     public void getTaskAssociatedObjects(Task task) {
-        Patient patient;//Client::=> The assigned client of this request
+        Patient patient;
         Location laboratory;
-        Location facility;//Sample Point::=> Location where sample was taken
-        Encounter encounter = null;// Has Facility/SamplePoint
+        Location facility;//Client::=> The assigned client of this request
+        Encounter encounter = null;
         Specimen specimen; //Sample
         ServiceRequest serviceRequest = null; //Test
 
