@@ -3,17 +3,12 @@ package zw.gov.mohcc.mrs.fhir.lims.entities;
 import lombok.Data;
 import lombok.ToString;
 
-/**
- *
- * SampleTemplate / Test 
- */
+//Lab Department
 @Data
 @ToString
-public class AnalysisTemplate {
-    
+public class Department {
+
     private String title;
     private String description;
-    private SampleType sampleType;
-    private SamplePoint samplePoint;
-    
+
 }

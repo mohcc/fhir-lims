@@ -7,7 +7,9 @@ public class LocationClientTranslator {
 
     public static Client toClient(Location location) {
         Client limsClient = new Client();
-        limsClient.setClientId(location.getIdElement().getIdPart());
+        //You can this clientId to look up for an Internal Client in your DB
+        String clientId = location.getIdElement().getIdPart();        
+        limsClient.setClientId(clientId);
         limsClient.setName(location.getName());
         return limsClient;
     }

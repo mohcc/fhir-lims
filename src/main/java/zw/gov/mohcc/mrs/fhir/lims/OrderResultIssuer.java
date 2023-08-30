@@ -55,6 +55,7 @@ public class OrderResultIssuer {
         //This is hard coded for now as an example
         diagnosticReport.setCode(new CodeableConcept(new Coding("http://loinc.org", "22748-8", "")));
         diagnosticReport.setSubject(task.getFor());
+       
         return diagnosticReport;
     }
 
@@ -71,5 +72,7 @@ public class OrderResultIssuer {
         observation.setValue(new Quantity().setValue(result).setUnit("UI/L"));
         return observation;
     }
+    
+    
 
 }

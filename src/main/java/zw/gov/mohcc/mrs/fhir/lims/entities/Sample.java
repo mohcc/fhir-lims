@@ -2,7 +2,6 @@ package zw.gov.mohcc.mrs.fhir.lims.entities;
 
 import java.time.LocalDateTime;
 import lombok.Data;
-import lombok.ToString;
 
 /**
  *  
@@ -10,7 +9,6 @@ import lombok.ToString;
  * 
  */
 @Data
-@ToString
 public class Sample {
     
     private AnalysisTemplate sampleTemplate;
@@ -22,6 +20,9 @@ public class Sample {
     private LocalDateTime dateReceived;
     private LocalDateTime dateReceivedAtHub;
     private LocalDateTime dateSampled;
+    private LocalDateTime datePublished;    
+    private String state;
+    private Contact contact;
     
     
     

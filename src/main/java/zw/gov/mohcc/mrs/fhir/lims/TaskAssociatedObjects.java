@@ -9,16 +9,17 @@ import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.ServiceRequest;
 import org.hl7.fhir.r4.model.Specimen;
 import org.hl7.fhir.r4.model.Task;
+import zw.gov.mohcc.mrs.fhir.lims.util.TaskBag;
 
 public class TaskAssociatedObjects {
 
     //A Task is Lab Order
-    public void getTaskAssociatedObjects(Task task) {
-        Patient patient;
-        Location laboratory;
-        Location facility;//Client::=> The assigned client of this request
+    public static TaskBag getTaskAssociatedObjects(Task task) {
+        Patient patient=null;
+        Location laboratory=null;
+        Location facility=null;//Client::=> The assigned client of this request
         Encounter encounter = null;
-        Specimen specimen; //Sample
+        Specimen specimen=null; //Sample
         ServiceRequest serviceRequest = null; //Test
 
         IGenericClient fhirClient = FhirClientUtility.getFhirClient();
@@ -122,6 +123,8 @@ public class TaskAssociatedObjects {
                 }
             }
         }
+        
+        return new TaskBag(task, patient, laboratory, facility, encounter, specimen, serviceRequest);
 
     }
 

@@ -10,7 +10,8 @@ public class OrderReceiveConfirmer {
     }
     
     /**Note:: you need to confirm the receipt of this electronic Task(Order)
-     * as soon as you save it in your local (lims) database**/
+     * as soon as you save it in your local (lims) database
+     * @param task**/
     public static void confirmTaskReceived(Task task){
         
         task.setStatus(Task.TaskStatus.RECEIVED);
