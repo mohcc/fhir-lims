@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class Address {
+public class LimsAddress {
     
     private Country country;
     private State state;

@@ -3,9 +3,11 @@ package zw.gov.mohcc.mrs.fhir.lims.entities;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
-public class Patient {
+@ToString
+public class LimsPatient {
     
     //Default
     private String clientPatientId;
@@ -41,8 +43,8 @@ public class Patient {
     private String civilStatus;
     
     //Address
-    private Address physicalAddress;
-    private Address postalAddress;
+    private LimsAddress physicalAddress;
+    private LimsAddress postalAddress;
     
     //Publication preference
     private boolean inheritDefaultSettings;

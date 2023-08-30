@@ -42,7 +42,7 @@ public class TaskTranslator {
         sample.setClient(client); 
 
         //Patient
-        zw.gov.mohcc.mrs.fhir.lims.entities.Patient limsPatient = PatientTranslator.toLimsPatient(patient);
+        zw.gov.mohcc.mrs.fhir.lims.entities.LimsPatient limsPatient = PatientTranslator.toLimsPatient(patient);
         sample.setPatient(limsPatient); //NB: You may want to save this Patient in your DB 
 
         //SampleTemplate or Test

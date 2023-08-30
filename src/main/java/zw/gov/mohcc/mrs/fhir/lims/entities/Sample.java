@@ -2,6 +2,7 @@ package zw.gov.mohcc.mrs.fhir.lims.entities;
 
 import java.time.LocalDateTime;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  *  
@@ -9,11 +10,12 @@ import lombok.Data;
  * 
  */
 @Data
+@ToString
 public class Sample {
     
     private AnalysisTemplate sampleTemplate;
     private SampleType sampleType;
-    private Patient patient;
+    private LimsPatient patient;
     private Client client;
     private String clientOrderNumber;
     private String clientSampleId;
