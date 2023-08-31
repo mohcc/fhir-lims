@@ -18,7 +18,7 @@ public class OrderRejecter {
         CodeableConcept rejectionReason = new CodeableConcept();
 
         Coding limsRejectReasonCode = new Coding();
-        limsRejectReasonCode.setSystem("http://mohcc.lims.org"); //Let's agree on this system pliz
+        limsRejectReasonCode.setSystem("urn:lims:code"); 
         limsRejectReasonCode.setCode("RR001");
         limsRejectReasonCode.setDisplay("Specimen lacked proper identification");
 
