@@ -26,7 +26,7 @@ public class Sample {
     private LocalDateTime datePublished;    
     private String state;
     private LabContact contact;
-    
+    private SampleCondition sampleCondition;   
     
     private List<LabAnalysis> labAnalyses;
     

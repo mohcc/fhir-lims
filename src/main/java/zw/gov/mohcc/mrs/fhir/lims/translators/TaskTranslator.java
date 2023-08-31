@@ -34,14 +34,16 @@ public class TaskTranslator {
         Sample sample = new Sample();
 
         //Client Order Number
-        sample.setClientOrderNumber(task.getIdElement().getIdPart());
+        String clientOrderNumber = task.getIdElement().getIdPart();
+        sample.setClientOrderNumber(clientOrderNumber);
 
         //Client Sample ID
-        sample.setClientSampleId(specimen.getIdentifier().stream()
+        String clientSampleId=
+                specimen.getIdentifier().stream()
                 .filter(i -> i.getSystem().equals("urn:impilo:cid"))
                 .map(Identifier::getValue)
-                .findFirst().orElse(null)
-        );
+                .findFirst().orElse(null);
+        sample.setClientSampleId(clientSampleId);
 
         Date dateCollected = getDateCollected(specimen);
         if (dateCollected != null) {
@@ -76,7 +78,7 @@ public class TaskTranslator {
                 return dateTimeTypeCollected.getValue();
             } else if (collected instanceof Period) {
                 Period periodCollected = (Period) collected;
-                    return periodCollected.getEnd();
+                return periodCollected.getEnd();
             }
         }
         return null;
