@@ -1,6 +1,7 @@
 package zw.gov.mohcc.mrs.fhir.lims.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Data;
 import lombok.ToString;
 
@@ -24,7 +25,10 @@ public class Sample {
     private LocalDateTime dateSampled;
     private LocalDateTime datePublished;    
     private String state;
-    private Contact contact;
+    private LabContact contact;
+    
+    
+    private List<LabAnalysis> labAnalyses;
     
     
     

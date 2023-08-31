@@ -7,14 +7,14 @@ import lombok.Data;
 
 //Lab Contact
 @Data
-public class Contact {
-    
+public class LabContact {    
+      
     private String salutation;
     private String firstname;
     private String middleInitial;
     private String surname;
-    private List<Department> departments;
-    private Department defaultDepartment;
+    private List<LabDepartment> departments;
+    private LabDepartment defaultDepartment;
     
     private String emailAddress;
     private String phoneBusiness;
@@ -23,5 +23,14 @@ public class Contact {
     private String phoneMobile;
     
     private boolean consentToSms;
+    
+    //Address
+    private LimsAddress physicalAddress;
+    private LimsAddress postalAddress;
+    
+    //Internal
+    private String labContactId; 
+    private String username;
+    private List<String> userGroups;
     
 }

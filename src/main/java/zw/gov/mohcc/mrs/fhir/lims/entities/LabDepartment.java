@@ -6,7 +6,7 @@ import lombok.ToString;
 //Lab Department
 @Data
 @ToString
-public class Department {
+public class LabDepartment {
 
     private String title;
     private String description;

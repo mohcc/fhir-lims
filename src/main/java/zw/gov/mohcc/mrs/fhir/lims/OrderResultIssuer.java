@@ -67,6 +67,10 @@ public class OrderResultIssuer {
         Observation observation = new Observation();
         observation.setId(UUID.randomUUID().toString());
         observation.setSubject(task.getFor());
+        observation.setBasedOn(task.getBasedOn());
+        observation.setSpecimen(null);
+        //This is hard coded for now as an example
+        observation.setMethod(new CodeableConcept(new Coding("http://loinc.org", "22748-8", "")));
         //Add Test Analysis Code.  //This is hard coded for now as an example
         observation.setCode(new CodeableConcept(new Coding("http://loinc.org", "22748-8", "")));
         observation.setValue(new Quantity().setValue(result).setUnit("UI/L"));
