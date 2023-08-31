@@ -2,7 +2,6 @@ package zw.gov.mohcc.mrs.fhir.lims.translators;
 
 import java.util.Date;
 import org.hl7.fhir.r4.model.DateTimeType;
-import org.hl7.fhir.r4.model.DateType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Location;
 import org.hl7.fhir.r4.model.Patient;
@@ -10,6 +9,7 @@ import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.ServiceRequest;
 import org.hl7.fhir.r4.model.Specimen;
 import org.hl7.fhir.r4.model.Task;
+import org.hl7.fhir.r4.model.Type;
 import zw.gov.mohcc.mrs.fhir.lims.TaskAssociatedObjects;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisTemplate;
 import zw.gov.mohcc.mrs.fhir.lims.entities.Client;
@@ -69,18 +69,14 @@ public class TaskTranslator {
     }
 
     private static Date getDateCollected(Specimen specimen) {
-        Specimen.SpecimenCollectionComponent collection = specimen.getCollection();
-        if (collection != null) {
-            if (collection.getCollected() instanceof DateTimeType) {
-                DateTimeType dateTimeTypeCollected = (DateTimeType) collection.getCollected();
-                if (dateTimeTypeCollected != null) {
-                    return dateTimeTypeCollected.getValue();
-                }
-            } else if (collection.getCollected() instanceof Period) {
-                Period periodCollected = (Period) collection.getCollected();
-                if (periodCollected != null) {
+        if (specimen.hasCollection() && specimen.getCollection().hasCollected()) {
+            Type collected = specimen.getCollection().getCollected();
+            if (collected instanceof DateTimeType) {
+                DateTimeType dateTimeTypeCollected = (DateTimeType) collected;
+                return dateTimeTypeCollected.getValue();
+            } else if (collected instanceof Period) {
+                Period periodCollected = (Period) collected;
                     return periodCollected.getEnd();
-                }
             }
         }
         return null;
