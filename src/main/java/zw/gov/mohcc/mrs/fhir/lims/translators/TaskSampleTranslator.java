@@ -19,7 +19,7 @@ import zw.gov.mohcc.mrs.fhir.lims.entities.SampleType;
 import zw.gov.mohcc.mrs.fhir.lims.util.DateTimeUtils;
 import zw.gov.mohcc.mrs.fhir.lims.util.TaskBag;
 
-public class TaskTranslator {
+public class TaskSampleTranslator {
 
     //From Task(Fhir) to Sample or Analysis Request (Lims)
     public static Sample toSample(Task task) {
