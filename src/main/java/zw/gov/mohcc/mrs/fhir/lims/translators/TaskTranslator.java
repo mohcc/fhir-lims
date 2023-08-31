@@ -1,10 +1,12 @@
 package zw.gov.mohcc.mrs.fhir.lims.translators;
 
 import java.util.Date;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.DateType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Location;
 import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.ServiceRequest;
 import org.hl7.fhir.r4.model.Specimen;
 import org.hl7.fhir.r4.model.Task;
@@ -68,10 +70,17 @@ public class TaskTranslator {
 
     private static Date getDateCollected(Specimen specimen) {
         Specimen.SpecimenCollectionComponent collection = specimen.getCollection();
-        if (collection != null && collection.getCollected() instanceof DateType) {
-            DateType dateTypeCollected = (DateType) collection.getCollected();
-            if (dateTypeCollected != null) {
-                return dateTypeCollected.getValue();
+        if (collection != null) {
+            if (collection.getCollected() instanceof DateTimeType) {
+                DateTimeType dateTimeTypeCollected = (DateTimeType) collection.getCollected();
+                if (dateTimeTypeCollected != null) {
+                    return dateTimeTypeCollected.getValue();
+                }
+            } else if (collection.getCollected() instanceof Period) {
+                Period periodCollected = (Period) collection.getCollected();
+                if (periodCollected != null) {
+                    return periodCollected.getEnd();
+                }
             }
         }
         return null;
