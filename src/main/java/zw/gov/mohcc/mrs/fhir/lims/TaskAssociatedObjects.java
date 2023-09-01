@@ -16,7 +16,7 @@ public class TaskAssociatedObjects {
 
     //A Task is Lab Order
     public static TaskBag getTaskAssociatedObjects(Task task) {
-        Organization organization = null; //Managing Organization
+        Organization organization = null; //Patient's Managing Organization(Primary Referrer)
         Patient patient = null;
         Location laboratory = null;
         Location facility = null;//Client::=> The assigned client of this request
@@ -79,7 +79,7 @@ public class TaskAssociatedObjects {
             }
         }
 
-        //Get Managing Organization (Patient Primary Referrer)
+        //Get Patient's Managing Organization (Patient's Primary Referrer)
         if (patient != null && patient.hasManagingOrganization()) {
 
             String patientManagingOrganizationId = patient.getManagingOrganization().getReferenceElement().getIdPart();

@@ -10,6 +10,7 @@ import static org.hl7.fhir.r4.model.Address.AddressType.BOTH;
 import static org.hl7.fhir.r4.model.Address.AddressType.NULL;
 import static org.hl7.fhir.r4.model.Address.AddressType.PHYSICAL;
 import static org.hl7.fhir.r4.model.Address.AddressType.POSTAL;
+import org.hl7.fhir.r4.model.BooleanType;
 import org.hl7.fhir.r4.model.ContactPoint;
 import static org.hl7.fhir.r4.model.ContactPoint.ContactPointUse.HOME;
 import static org.hl7.fhir.r4.model.ContactPoint.ContactPointUse.MOBILE;
@@ -64,6 +65,10 @@ public class PatientTranslator {
 
         //Additional Identifiers
         setAdditionalIdentifiers(limsPatient, fhirPatient);
+        
+        //Consent to sms
+        limsPatient.setConsentToSms(getConsentToSms(fhirPatient));
+        
         
         return limsPatient;
         
@@ -178,5 +183,15 @@ public class PatientTranslator {
                 return true;
         }
         return false;
+    }
+    
+    private static Boolean getConsentToSms(Patient fhirPatient){
+        for(Extension extension:fhirPatient.getExtension()){
+            if(extension.getUrl().equals("urn:consent:sms")){
+                BooleanType type=(BooleanType)extension.getValue();
+                return type.booleanValue();
+            }            
+        }
+        return null;
     }
 }

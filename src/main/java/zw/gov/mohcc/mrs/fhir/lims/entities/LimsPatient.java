@@ -16,7 +16,7 @@ public class LimsPatient {
     private String firstname;
     private String surname;
     private String phoneMobile;
-    private boolean consentToSms;  
+    private Boolean consentToSms;  
     private List<PatientIdentifier> additionalIdentifiers;
     private Gender gender;
     private boolean birthDateMissing;
