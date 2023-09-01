@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Location;
+import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.ServiceRequest;
 import org.hl7.fhir.r4.model.Specimen;
@@ -15,11 +16,12 @@ import org.hl7.fhir.r4.model.Task;
 @NoArgsConstructor
 public class TaskBag {
 
-    Task task;
+    Task task; //Order
     Patient patient;
     Location laboratory;
-    Location facility;
-    Encounter encounter;
-    Specimen specimen; //Sample
+    Location facility;// Order/Sample's Facility/Client
+    Encounter encounter; //Orders's Encounter
+    Specimen specimen; //Sample Type
     ServiceRequest serviceRequest; //Test
+    Organization organization; //Patient's Primary Referrer
 }

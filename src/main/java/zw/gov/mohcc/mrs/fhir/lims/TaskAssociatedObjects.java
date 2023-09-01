@@ -5,6 +5,7 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Location;
+import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.ServiceRequest;
 import org.hl7.fhir.r4.model.Specimen;
@@ -15,11 +16,12 @@ public class TaskAssociatedObjects {
 
     //A Task is Lab Order
     public static TaskBag getTaskAssociatedObjects(Task task) {
-        Patient patient=null;
-        Location laboratory=null;
-        Location facility=null;//Client::=> The assigned client of this request
+        Organization organization = null; //Managing Organization
+        Patient patient = null;
+        Location laboratory = null;
+        Location facility = null;//Client::=> The assigned client of this request
         Encounter encounter = null;
-        Specimen specimen=null; //Sample
+        Specimen specimen = null; //Sample
         ServiceRequest serviceRequest = null; //Test
 
         IGenericClient fhirClient = FhirClientUtility.getFhirClient();
@@ -77,6 +79,30 @@ public class TaskAssociatedObjects {
             }
         }
 
+        //Get Managing Organization (Patient Primary Referrer)
+        if (patient != null && patient.hasManagingOrganization()) {
+
+            String patientManagingOrganizationId = patient.getManagingOrganization().getReferenceElement().getIdPart();
+
+            bundle = fhirClient.search().forResource(Organization.class)
+                    .where(new TokenClientParam("_id").exactly().code(patientManagingOrganizationId))
+                    .include(Organization.INCLUDE_ALL)
+                    .returnBundle(Bundle.class).execute();
+
+            for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+                if (entry.hasResource()) {
+                    switch (entry.getResource().getResourceType()) {
+                        case Organization:
+                            organization = (Organization) entry.getResource();
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+        }
+
         //Get Specimen (Sample)
         if (serviceRequest != null) {
 
@@ -101,7 +127,7 @@ public class TaskAssociatedObjects {
             }
         }
 
-        //Get Facility
+        //Get Facility (Order/Sample Client)
         if (encounter != null) {
             String encounterId = encounter.getIdElement().getIdPart();
 
@@ -123,8 +149,8 @@ public class TaskAssociatedObjects {
                 }
             }
         }
-        
-        return new TaskBag(task, patient, laboratory, facility, encounter, specimen, serviceRequest);
+
+        return new TaskBag(task, patient, laboratory, facility, encounter, specimen, serviceRequest, organization);
 
     }
 

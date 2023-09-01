@@ -4,6 +4,7 @@ import java.util.Date;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Location;
+import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.ServiceRequest;
@@ -29,6 +30,7 @@ public class TaskSampleTranslator {
         Specimen specimen = taskBag.getSpecimen();
         Patient patient = taskBag.getPatient();
         ServiceRequest serviceRequest = taskBag.getServiceRequest();
+        Organization organization=taskBag.getOrganization();
 
         //Analysis Request
         Sample sample = new Sample();
@@ -56,6 +58,10 @@ public class TaskSampleTranslator {
 
         //Patient
         LimsPatient limsPatient = PatientTranslator.toLimsPatient(patient);
+        if(organization!=null){
+            Client primaryReferrer=OrganizationClientTranslator.toClient(organization);
+            limsPatient.setPrimaryReferrer(primaryReferrer);
+        }
         sample.setPatient(limsPatient); //NB: You may want to save this Patient in your DB 
 
         //SampleTemplate or Test

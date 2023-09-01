@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class LimsPatient {
     
+    private String patientId;
+    
     //Default
     private String clientPatientId;
     private String firstname;
@@ -49,5 +51,7 @@ public class LimsPatient {
     //Publication preference
     private boolean inheritDefaultSettings;
     private boolean allowResultsDistribution;
+    
+    private Client primaryReferrer;
      
 }

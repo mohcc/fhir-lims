@@ -54,7 +54,8 @@ public class PatientTranslator {
             limsPatient.setBirthDate(DateTimeUtils.convertToLocalDate(fhirPatient.getBirthDate()));
             limsPatient.setBirthDateEstimated(isEstimated(fhirPatient.getBirthDateElement()));
         }
-
+        
+       
         //Phones
         setPhones(limsPatient, fhirPatient);
 
