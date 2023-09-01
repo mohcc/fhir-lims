@@ -29,7 +29,7 @@ public class OrderResultIssuer {
 
         DiagnosticReport diagnosticReport = getDiagnosticReport(task);
         String diagnosticReportId = diagnosticReport.getIdElement().getIdPart();
-        Reference diagnosticReportReference = FhirReferenceCreator.getReference(diagnosticReportId, "DiagnosticReport");
+        Reference diagnosticReportReference = FhirReferenceCreator.getReference(diagnosticReportId, "DiagnosticReport");        
         output.setValue(diagnosticReportReference);
         task.setOutput(Collections.singletonList(output));
 
