@@ -12,4 +12,7 @@ public class SampleType {
     private boolean hazardous;
     private String minimumVolum;
     
+    //Custom
+    private String code;
+    
 }

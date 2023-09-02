@@ -16,4 +16,7 @@ public class AnalysisTemplate {
     private SampleType sampleType;
     private SamplePoint samplePoint;
     
+    //Custom
+    private String code;
+    
 }

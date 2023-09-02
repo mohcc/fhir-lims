@@ -12,16 +12,26 @@ public class FhirClientUtility {
     public static String username = "limsUsername";
     public static String password = "limsPassword";
 
+    private static IGenericClient fhirClient;
+
     private FhirClientUtility() {
     }
 
     public static IGenericClient getFhirClient() {
+        if (fhirClient == null) {
+            fhirClient = createFhirClient();
+        }
+        return fhirClient;
+
+    }
+
+    private static IGenericClient createFhirClient() {
         FhirContext fhirContext = FhirContext.forR4();
-        IGenericClient fhirClient = fhirContext.newRestfulGenericClient(baseUrl);
+        IGenericClient client = fhirContext.newRestfulGenericClient(baseUrl);
         BasicAuthInterceptor authInterceptor = new BasicAuthInterceptor(username,
                 password);
-        fhirClient.registerInterceptor(authInterceptor);
-        return fhirClient;
+        client.registerInterceptor(authInterceptor);
+        return client;
     }
 
 }

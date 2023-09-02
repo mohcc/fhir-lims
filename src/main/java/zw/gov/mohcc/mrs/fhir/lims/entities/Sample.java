@@ -30,6 +30,9 @@ public class Sample {
     
     private List<LabAnalysis> labAnalyses;
     
+    //Custom (for pregnancy, breastfeeding etc)
+    ExtraDetails extraDetails;
+    
     
     
 }
