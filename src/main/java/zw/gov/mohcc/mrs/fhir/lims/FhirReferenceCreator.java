@@ -1,5 +1,6 @@
 package zw.gov.mohcc.mrs.fhir.lims;
 
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Reference;
 
 public class FhirReferenceCreator {
@@ -7,6 +8,8 @@ public class FhirReferenceCreator {
     private FhirReferenceCreator(){
         
     }
+    
+     
     
     public static Reference getReference(String id, String type) {
         Reference reference = new Reference();      

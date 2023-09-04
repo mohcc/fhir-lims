@@ -1,5 +1,6 @@
 package zw.gov.mohcc.mrs.fhir.lims;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.DiagnosticReport;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Observation;
@@ -17,8 +19,10 @@ import org.hl7.fhir.r4.model.Task;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisService;
 import zw.gov.mohcc.mrs.fhir.lims.entities.Instrument;
 import zw.gov.mohcc.mrs.fhir.lims.entities.LabAnalysis;
+import zw.gov.mohcc.mrs.fhir.lims.entities.LabContact;
 import zw.gov.mohcc.mrs.fhir.lims.entities.Method;
 import zw.gov.mohcc.mrs.fhir.lims.entities.Sample;
+import static zw.gov.mohcc.mrs.fhir.lims.util.DateTimeUtils.convertToDate;
 
 public class OrderResultIssuer {
 
@@ -26,7 +30,16 @@ public class OrderResultIssuer {
 
     }
 
-    public static void submitResults(Task task, Collection<LabAnalysis> labAnalysisCollection) {
+    public static void submitResults(Sample sample) {
+
+        String taskId = sample.getClientOrderNumber();
+        Collection<LabAnalysis> labAnalysisCollection = sample.getLabAnalyses();
+
+        Task task = OrderFinder.findTaskById(taskId);
+        if (task == null) {
+            System.out.println("Task(" + taskId + ") not found");
+            throw new RuntimeException("Task(" + taskId + ") not found");
+        }
 
         List<Observation> observations = new ArrayList<>();
 
@@ -36,7 +49,7 @@ public class OrderResultIssuer {
         task.setStatus(Task.TaskStatus.COMPLETED);
         Task.TaskOutputComponent output = new Task.TaskOutputComponent();
 
-        DiagnosticReport diagnosticReport = getDiagnosticReport(task);
+        DiagnosticReport diagnosticReport = getDiagnosticReport(sample, task);
         String diagnosticReportId = diagnosticReport.getIdElement().getIdPart();
         Reference diagnosticReportReference = FhirReferenceCreator.getReference(diagnosticReportId, "DiagnosticReport");
         output.setValue(diagnosticReportReference);
@@ -46,7 +59,7 @@ public class OrderResultIssuer {
         diagnosticReport.setResult(observationReferences);
 
         for (LabAnalysis labAnalysis : labAnalysisCollection) {
-            Observation observation = getObservation(task, labAnalysis);
+            Observation observation = getObservation(sample, task, labAnalysis);
             String observationId = observation.getIdElement().getIdPart();
             Reference observationReference = FhirReferenceCreator.getReference(observationId, "Observation");
             diagnosticReport.getResult().add(observationReference);
@@ -66,17 +79,46 @@ public class OrderResultIssuer {
 
     }
 
-    public static DiagnosticReport getDiagnosticReport(Task task) {
+    public static DiagnosticReport getDiagnosticReport(Sample sample, Task task) {
+        LabContact submitter = sample.getSubmitter();
+        LabContact verifier = sample.getVerifier();
+        LocalDate dateSubmitted = sample.getDateSubmitted();
+        LocalDate dateVerified = sample.getDateVerified();
+
         DiagnosticReport diagnosticReport = new DiagnosticReport();
         diagnosticReport.setId(UUID.randomUUID().toString());
         diagnosticReport.setCode(new CodeableConcept(new Coding("http://loinc.org", "22748-8", "")));
         diagnosticReport.setSubject(task.getFor());
 
+        //Submitter
+        if (submitter != null) {
+            Reference submitterReference = getLabContactReference(submitter);
+            diagnosticReport.setPerformer(Collections.singletonList(submitterReference));
+        }
+
+        //Verifier
+        if (verifier != null) {
+            Reference verifierReference = getLabContactReference(verifier);
+            diagnosticReport.setResultsInterpreter(Collections.singletonList(verifierReference));
+        }
+
+        //Date Submitted
+        if (dateSubmitted != null) {
+            diagnosticReport.setEffective(new DateTimeType(convertToDate(dateSubmitted)));
+        }
+
+        //Date Verified
+        if (dateVerified != null) {
+            diagnosticReport.setIssued(convertToDate(dateVerified));
+        }
+        
+        
+
         return diagnosticReport;
     }
 
     //Lab Analyses
-    public static Observation getObservation(Task task, LabAnalysis labAnalysis) {
+    public static Observation getObservation(Sample sample, Task task, LabAnalysis labAnalysis) {
         double resultValue = labAnalysis.getResultValue();
         AnalysisService analysisService = labAnalysis.getAnalysis();
         Method method = labAnalysis.getMethod();
@@ -102,7 +144,11 @@ public class OrderResultIssuer {
         return observation;
     }
 
-    public static Reference getReference(String id, String type, String display, boolean hasReference) {
+    private static Reference getLabContactReference(LabContact labContact) {
+        return getReference(labContact.getLabContactId(), "Practitioner", labContact.getFullname(), false);
+    }
+
+    private static Reference getReference(String id, String type, String display, boolean hasReference) {
         Reference reference = new Reference();
         if (hasReference) {
             reference.setReference(type + "/" + id).setType(type);
@@ -116,21 +162,6 @@ public class OrderResultIssuer {
             reference.setIdentifier(identifier);
         }
         return reference;
-    }
-
-    public static void submitResults(String taskId, Collection<LabAnalysis> labAnalysisCollection) {
-        Task task = OrderFinder.findTaskById(taskId);
-        if (task == null) {
-            System.out.println("Task(" + taskId + ") not found");
-            throw new RuntimeException("Task(" + taskId + ") not found");
-        }
-
-        submitResults(task, labAnalysisCollection);
-    }
-
-    public static void submitResults(Sample sample) {
-        String taskId = sample.getClientOrderNumber();
-        submitResults(taskId, sample.getLabAnalyses());
     }
 
 }

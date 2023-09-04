@@ -1,5 +1,6 @@
 package zw.gov.mohcc.mrs.fhir.lims.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
@@ -34,6 +35,13 @@ public class Sample {
     private List<LabAnalysis> labAnalyses;
     
     private List<RejectionReason> rejectionReasons;
+    
+    //Custom
+    private LabContact submitter;
+    private LabContact verifier;
+    private LocalDate dateSubmitted;
+    private LocalDate dateVerified;
+    private String reviewState;
     
     //Custom (for pregnancy, breastfeeding etc)
     private ExtraDetails extraDetails;
