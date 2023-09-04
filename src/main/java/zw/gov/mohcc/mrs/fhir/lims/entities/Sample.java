@@ -33,6 +33,8 @@ public class Sample {
     
     private List<LabAnalysis> labAnalyses;
     
+    private List<RejectionReason> rejectionReasons;
+    
     //Custom (for pregnancy, breastfeeding etc)
     private ExtraDetails extraDetails;
     private String status;

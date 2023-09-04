@@ -7,6 +7,7 @@ import lombok.Data;
 public class LabAnalysis {
 
     private AnalysisService analysis;
+    private Method method;
     private Double resultValue;
     private LocalDate dueDate;
     private Instrument instrument;
