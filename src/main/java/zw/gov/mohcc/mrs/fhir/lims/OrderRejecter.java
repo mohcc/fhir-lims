@@ -1,12 +1,13 @@
 package zw.gov.mohcc.mrs.fhir.lims;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Task;
 import zw.gov.mohcc.mrs.fhir.lims.entities.RejectionReason;
+import zw.gov.mohcc.mrs.fhir.lims.entities.Sample;
 
 public class OrderRejecter {
 
@@ -16,7 +17,7 @@ public class OrderRejecter {
 
     }
 
-    public static void rejectOrder(Task task, List<RejectionReason> rejectionReasons) {
+    public static void rejectOrder(Task task, Collection<RejectionReason> rejectionReasons) {
 
         task.setStatus(Task.TaskStatus.REJECTED);
 
@@ -32,6 +33,23 @@ public class OrderRejecter {
         //Save this Task/Order in the Shared Health Record (SHR):: OpenHIE
         FhirResourcesSaver.saveFhirResources(Collections.singletonList(task));
 
+    }
+
+    public static void rejectOrder(String taskId, Collection<RejectionReason> rejectionReasons) {
+
+        Task task = OrderFinder.findTaskById(taskId);
+        if (task == null) {
+            System.out.println("Task(" + taskId + ") not found");
+            throw new RuntimeException("Task(" + taskId + ") not found");
+        }
+
+        rejectOrder(task, rejectionReasons);
+
+    }
+
+    public static void rejectOrder(Sample sample, Collection<RejectionReason> rejectionReasons) {
+        String clientOrderNumber = sample.getClientOrderNumber();
+        rejectOrder(clientOrderNumber, rejectionReasons);
     }
 
     private static Extension getStatusReasonExtension(RejectionReason rejectionReason) {

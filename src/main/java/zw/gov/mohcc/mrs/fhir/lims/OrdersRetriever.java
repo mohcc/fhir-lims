@@ -14,17 +14,16 @@ public class OrdersRetriever {
 
     //Get Lab Request Orders from Impilo Facilities or Sites in Fhir format
     public static List<Task> getRequestedTasks() {
-        
-       
+
         List<Task> tasks = new ArrayList<>();
-        
+
         IGenericClient client = FhirClientUtility.getFhirClient();
-        
+
         Bundle bundle = client.search().forResource(Task.class)
                 .where(Task.STATUS.exactly().code(Task.TaskStatus.REQUESTED.toCode()))
                 .returnBundle(Bundle.class)
                 .execute();
-        
+
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
             if (entry.hasResource()) {
                 switch (entry.getResource().getResourceType()) {
@@ -41,6 +40,33 @@ public class OrdersRetriever {
         return tasks;
 
     }
-    
-    
+
+    //Not for Lims (This is just for testing)
+    public static List<Task> getAllTasks() {
+
+        List<Task> tasks = new ArrayList<>();
+
+        IGenericClient client = FhirClientUtility.getFhirClient();
+
+        Bundle bundle = client.search().forResource(Task.class)
+                .returnBundle(Bundle.class)
+                .execute();
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+            if (entry.hasResource()) {
+                switch (entry.getResource().getResourceType()) {
+                    case Task:
+                        Task task = (Task) entry.getResource();
+                        tasks.add(task);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        return tasks;
+
+    }
+
 }

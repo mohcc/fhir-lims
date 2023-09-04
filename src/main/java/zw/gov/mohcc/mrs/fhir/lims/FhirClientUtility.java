@@ -27,6 +27,10 @@ public class FhirClientUtility {
 
     private static IGenericClient createFhirClient() {
         FhirContext fhirContext = FhirContext.forR4();
+        // Set how long to try and establish the initial TCP connection (in ms)
+        fhirContext.getRestfulClientFactory().setConnectTimeout(5 * 60 * 1000);
+        // Set how long to block for individual read/write operations (in ms)
+        fhirContext.getRestfulClientFactory().setSocketTimeout(5 * 60 * 1000);
         IGenericClient client = fhirContext.newRestfulGenericClient(baseUrl);
         BasicAuthInterceptor authInterceptor = new BasicAuthInterceptor(username,
                 password);

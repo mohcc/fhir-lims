@@ -1,6 +1,7 @@
 package zw.gov.mohcc.mrs.fhir.lims.translators;
 
 import java.util.Date;
+import org.apache.commons.text.WordUtils;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Location;
@@ -71,6 +72,9 @@ public class TaskSampleTranslator {
         //SampleType
         SampleType sampleType = SpecimenTranslator.toSampleType(specimen);
         sample.setSampleType(sampleType);
+        
+        //Status
+        sample.setStatus(WordUtils.capitalizeFully(task.getStatus().name()));
 
         return sample;
 

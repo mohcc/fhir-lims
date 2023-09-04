@@ -8,5 +8,8 @@ public class Instrument {
 
     private String title;
     private InstrumentType instrumentType; //E.g Analyzer
+    
+    //Custom
+    private String code;
 
 }

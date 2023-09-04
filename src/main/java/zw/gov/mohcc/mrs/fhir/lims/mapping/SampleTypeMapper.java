@@ -6,8 +6,8 @@ import zw.gov.mohcc.mrs.fhir.lims.entities.SampleType;
 
 public class SampleTypeMapper {
 
-    private static Map<String, SampleType> impiloMap = new HashMap<>();
-    private static Map<String, SampleType> limsMap = new HashMap<>();
+    private static final Map<String, SampleType> impiloMap = new HashMap<>();
+    private static final Map<String, SampleType> limsMap = new HashMap<>();
 
     static {
         createSampleType("LST006", "Blood plasma", "01");

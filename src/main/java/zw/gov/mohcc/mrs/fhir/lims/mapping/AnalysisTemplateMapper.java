@@ -6,8 +6,8 @@ import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisTemplate;
 
 public class AnalysisTemplateMapper {
 
-    private static Map<String, AnalysisTemplate> impiloMap = new HashMap<>();
-    private static Map<String, AnalysisTemplate> limsMap = new HashMap<>();
+    private static final Map<String, AnalysisTemplate> impiloMap = new HashMap<>();
+    private static final Map<String, AnalysisTemplate> limsMap = new HashMap<>();
 
     static {
         createAnalysisTemplate("LTT0013", "HIV Viral Load PLASMA", "35ccdf6f-adee-11e7-b30f-3372a2d8551e");

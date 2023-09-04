@@ -3,6 +3,7 @@ package zw.gov.mohcc.mrs.fhir.lims.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -12,13 +13,15 @@ import lombok.ToString;
  */
 @Data
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Sample {
     
+    @EqualsAndHashCode.Include
+    private String clientOrderNumber;
     private AnalysisTemplate sampleTemplate;
     private SampleType sampleType;
     private LimsPatient patient;
-    private Client client;
-    private String clientOrderNumber;
+    private Client client;   
     private String clientSampleId;
     private LocalDateTime dateReceived;
     private LocalDateTime dateReceivedAtHub;
@@ -31,8 +34,11 @@ public class Sample {
     private List<LabAnalysis> labAnalyses;
     
     //Custom (for pregnancy, breastfeeding etc)
-    ExtraDetails extraDetails;
+    private ExtraDetails extraDetails;
+    private String status;
     
+
+   
     
     
 }
