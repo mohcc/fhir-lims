@@ -12,6 +12,7 @@ public class LabContact {
     private String salutation;
     private String firstname;
     private String middleInitial;
+    private String middlename;
     private String surname;
     private List<LabDepartment> departments;
     private LabDepartment defaultDepartment;
