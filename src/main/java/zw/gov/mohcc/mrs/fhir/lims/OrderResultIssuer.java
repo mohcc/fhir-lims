@@ -17,6 +17,7 @@ import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
 import org.hl7.fhir.r4.model.Task;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisService;
+import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisTemplate;
 import zw.gov.mohcc.mrs.fhir.lims.entities.Instrument;
 import zw.gov.mohcc.mrs.fhir.lims.entities.LabAnalysis;
 import zw.gov.mohcc.mrs.fhir.lims.entities.LabContact;
@@ -84,10 +85,12 @@ public class OrderResultIssuer {
         LabContact verifier = sample.getVerifier();
         LocalDate dateSubmitted = sample.getDateSubmitted();
         LocalDate dateVerified = sample.getDateVerified();
+        AnalysisTemplate sampleTemplate=sample.getSampleTemplate();
 
         DiagnosticReport diagnosticReport = new DiagnosticReport();
         diagnosticReport.setId(UUID.randomUUID().toString());
-        diagnosticReport.setCode(new CodeableConcept(new Coding("http://loinc.org", "22748-8", "")));
+        
+        diagnosticReport.setCode(new CodeableConcept(new Coding("urn:lims:code", sampleTemplate.getCode(), sampleTemplate.getTitle())));
         diagnosticReport.setSubject(task.getFor());
 
         //Submitter

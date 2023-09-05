@@ -15,7 +15,10 @@ public class MethodRepository {
     }
     
     private static void add(String code,String title){
-        methods.add(new Method(code,title));
+        Method method=new Method();
+        method.setCode(code);
+        method.setTitle(title);
+        methods.add(method);
     }
     
     public static List<Method> getMethods(){
