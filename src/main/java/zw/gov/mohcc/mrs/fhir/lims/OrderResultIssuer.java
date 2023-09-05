@@ -30,7 +30,7 @@ public class OrderResultIssuer {
 
     }
 
-    public static void submitResults(Sample sample) {
+    public static void publishResults(Sample sample) {
 
         String taskId = sample.getClientOrderNumber();
         Collection<LabAnalysis> labAnalysisCollection = sample.getLabAnalyses();
