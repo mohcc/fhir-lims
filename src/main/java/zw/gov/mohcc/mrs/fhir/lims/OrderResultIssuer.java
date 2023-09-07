@@ -44,7 +44,7 @@ public class OrderResultIssuer {
 
         List<Observation> observations = new ArrayList<>();
 
-        //We call this Result Bundle
+        //Fhir Resources for the Result Bundle
         List<Resource> fhirResources = new ArrayList<>();
 
         task.setStatus(Task.TaskStatus.COMPLETED);
