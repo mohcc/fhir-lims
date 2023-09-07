@@ -1,6 +1,6 @@
 package zw.gov.mohcc.mrs.fhir.lims.entities;
 
-public enum Gender {
+public enum LimsGender {
     
     MALE,
     FEMALE,

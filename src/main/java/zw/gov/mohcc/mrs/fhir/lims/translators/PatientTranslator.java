@@ -18,12 +18,16 @@ import static org.hl7.fhir.r4.model.ContactPoint.ContactPointUse.NULL;
 import static org.hl7.fhir.r4.model.ContactPoint.ContactPointUse.TEMP;
 import static org.hl7.fhir.r4.model.ContactPoint.ContactPointUse.WORK;
 import org.hl7.fhir.r4.model.DateType;
+import org.hl7.fhir.r4.model.Enumerations;
+import static org.hl7.fhir.r4.model.Enumerations.AdministrativeGender.FEMALE;
+import static org.hl7.fhir.r4.model.Enumerations.AdministrativeGender.MALE;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.HumanName;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.StringType;
 import zw.gov.mohcc.mrs.fhir.lims.entities.LimsAddress;
+import zw.gov.mohcc.mrs.fhir.lims.entities.LimsGender;
 import zw.gov.mohcc.mrs.fhir.lims.entities.LimsPatient;
 import zw.gov.mohcc.mrs.fhir.lims.entities.PatientIdentifier;
 import zw.gov.mohcc.mrs.fhir.lims.util.DateTimeUtils;
@@ -69,6 +73,8 @@ public class PatientTranslator {
         //Consent to sms
         limsPatient.setConsentToSms(getConsentToSms(fhirPatient));
         
+        //Gender
+        setGender(limsPatient, fhirPatient);
         
         return limsPatient;
         
@@ -171,6 +177,26 @@ public class PatientTranslator {
                 
             }
             
+        }
+    }
+    
+    private static void setGender(LimsPatient limsPatient, Patient fhirPatient){
+        //Gender
+        if(fhirPatient.getGender()!=null){
+            if(null==fhirPatient.getGender()){
+                limsPatient.setGender(LimsGender.DONT_KNOW);
+            }else switch (fhirPatient.getGender()) {
+                case FEMALE:
+                    limsPatient.setGender(LimsGender.FEMALE);
+                    break;
+                case MALE:
+                    limsPatient.setGender(LimsGender.MALE);
+                    break;
+                default:
+                    limsPatient.setGender(LimsGender.DONT_KNOW);
+                    break;
+            }
+        
         }
     }
     

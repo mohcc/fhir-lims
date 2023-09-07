@@ -141,9 +141,8 @@ public class OrderResultIssuer {
 
         //AnalysisService coding
         observation.setCode(new CodeableConcept(new Coding("urn:lims:code", analysisService.getCode(), analysisService.getTitle())));
-
         //Result
-        observation.setValue(new Quantity().setValue(resultValue).setUnit("UI/L"));
+        observation.setValue(new Quantity().setValue(resultValue).setUnit(analysisService.getUnit()));
         return observation;
     }
 
