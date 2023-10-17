@@ -6,7 +6,8 @@ import lombok.ToString;
 
 /**
  *
- * SampleTemplate / Test. E.g HIV Viral Load PLASMA 
+ * SampleTemplate. E.g HIV Viral Load PLASMA.
+ * This is equivalent to an Investigation in Impilo EHR
  */
 @Data
 @ToString

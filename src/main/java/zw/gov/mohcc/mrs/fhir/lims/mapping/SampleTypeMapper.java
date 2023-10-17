@@ -10,7 +10,7 @@ public class SampleTypeMapper {
     private static final Map<String, SampleType> limsMap = new HashMap<>();
 
     static {
-        createSampleType("LST006", "Blood plasma", "01");
+        createSampleType("LST006", "Blood plasma", "IST0002");
     }
     
     public static SampleType findByImpiloCode(String impiloCode){

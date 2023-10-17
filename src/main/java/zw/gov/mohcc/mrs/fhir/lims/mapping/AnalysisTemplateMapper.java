@@ -10,7 +10,7 @@ public class AnalysisTemplateMapper {
     private static final Map<String, AnalysisTemplate> limsMap = new HashMap<>();
 
     static {
-        createAnalysisTemplate("LTT0013", "HIV Viral Load PLASMA", "35ccdf6f-adee-11e7-b30f-3372a2d8551e");
+        createAnalysisTemplate("LTT0013", "HIV Viral Load PLASMA", "ILT0048");
     }
     
     public static AnalysisTemplate findByImpiloCode(String impiloCode){
