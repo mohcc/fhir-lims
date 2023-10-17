@@ -47,6 +47,10 @@ public class Sample {
     private ExtraDetails extraDetails;
     private String status;
     
+    //Custom (Dates)
+    private LocalDateTime dateRegistered;
+    private LocalDateTime dateShrEntered;
+    
 
    
     

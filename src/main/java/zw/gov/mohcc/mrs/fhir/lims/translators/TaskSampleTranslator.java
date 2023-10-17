@@ -25,13 +25,13 @@ public class TaskSampleTranslator {
 
     //From Task(Fhir) to Sample or Analysis Request (Lims)
     public static Sample toSample(Task task) {
-
+        
         TaskBag taskBag = TaskAssociatedObjects.getTaskAssociatedObjects(task);
         Location facility = taskBag.getFacility();
         Specimen specimen = taskBag.getSpecimen();
         Patient patient = taskBag.getPatient();
         ServiceRequest serviceRequest = taskBag.getServiceRequest();
-        Organization organization=taskBag.getOrganization();
+        Organization organization = taskBag.getOrganization();
 
         //Analysis Request
         Sample sample = new Sample();
@@ -41,16 +41,26 @@ public class TaskSampleTranslator {
         sample.setClientOrderNumber(clientOrderNumber);
 
         //Client Sample ID
-        String clientSampleId=
-                specimen.getIdentifier().stream()
-                .filter(i -> i.getSystem().equals("urn:impilo:cid"))
-                .map(Identifier::getValue)
-                .findFirst().orElse(null);
+        String clientSampleId
+                = specimen.getIdentifier().stream()
+                        .filter(i -> i.getSystem().equals("urn:impilo:cid"))
+                        .map(Identifier::getValue)
+                        .findFirst().orElse(null);
         sample.setClientSampleId(clientSampleId);
-
-        Date dateCollected = getDateCollected(specimen);
+        
+        Date dateCollected = getDateTimeSampleCollected(specimen);
         if (dateCollected != null) {
             sample.setDateSampled(DateTimeUtils.convertToLocalDateTime(dateCollected));
+        }
+        
+        Date dateRegistered = getDateTimeSampleRegistered(task);
+        if (dateRegistered != null) {
+            sample.setDateRegistered(DateTimeUtils.convertToLocalDateTime(dateRegistered));
+        }
+        
+        Date dateShrEntered = getDateTimeShrEntered(task);
+        if (dateShrEntered != null) {
+            sample.setDateShrEntered(DateTimeUtils.convertToLocalDateTime(dateShrEntered));
         }
 
         //Facility/Internal Client
@@ -59,8 +69,8 @@ public class TaskSampleTranslator {
 
         //Patient
         LimsPatient limsPatient = PatientTranslator.toLimsPatient(patient);
-        if(organization!=null){
-            Client primaryReferrer=OrganizationClientTranslator.toClient(organization);
+        if (organization != null) {
+            Client primaryReferrer = OrganizationClientTranslator.toClient(organization);
             limsPatient.setPrimaryReferrer(primaryReferrer);
         }
         sample.setPatient(limsPatient); //NB: You may want to save this Patient in your DB 
@@ -72,15 +82,15 @@ public class TaskSampleTranslator {
         //SampleType
         SampleType sampleType = SpecimenTranslator.toSampleType(specimen);
         sample.setSampleType(sampleType);
-        
+
         //Status
         sample.setStatus(WordUtils.capitalizeFully(task.getStatus().name()));
-
+        
         return sample;
-
+        
     }
-
-    private static Date getDateCollected(Specimen specimen) {
+    
+    private static Date getDateTimeSampleCollected(Specimen specimen) {
         if (specimen.hasCollection() && specimen.getCollection().hasCollected()) {
             Type collected = specimen.getCollection().getCollected();
             if (collected instanceof DateTimeType) {
@@ -93,5 +103,16 @@ public class TaskSampleTranslator {
         }
         return null;
     }
-
+    
+    private static Date getDateTimeSampleRegistered(Task task) {
+        if (task.hasExecutionPeriod()) {
+            return task.getExecutionPeriod().getStart();
+        }
+        return null;
+    }
+    
+    private static Date getDateTimeShrEntered(Task task) {
+        return task.getAuthoredOn();
+    }
+    
 }
