@@ -14,5 +14,6 @@ public class LabAnalysis {
     private LabContact analyst;
     private LabContact submitter;    
     private LabContact verifier; //Confirm this!
+    
 
 }

@@ -6,15 +6,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import org.hl7.fhir.r4.model.BooleanType;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.DiagnosticReport;
+import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Quantity;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.StringType;
 import org.hl7.fhir.r4.model.Task;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisService;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisTemplate;
@@ -48,6 +51,10 @@ public class OrderResultIssuer {
         List<Resource> fhirResources = new ArrayList<>();
 
         task.setStatus(Task.TaskStatus.COMPLETED);
+        if (sample.getCriticalResult() != null) {
+            addCriticalResult(task, sample.getCriticalResult());
+        }
+
         Task.TaskOutputComponent output = new Task.TaskOutputComponent();
 
         DiagnosticReport diagnosticReport = getDiagnosticReport(sample, task);
@@ -80,16 +87,24 @@ public class OrderResultIssuer {
 
     }
 
+    private static void addCriticalResult(Task task, boolean criticalResult) {
+        Extension extension = new Extension();
+        extension.setId("criticalResult-" + task.getIdElement().getIdPart());
+        extension.setUrl("urn:task:criticalResult");
+        extension.setValue(new BooleanType(criticalResult));
+        task.addExtension(extension);
+    }
+
     public static DiagnosticReport getDiagnosticReport(Sample sample, Task task) {
         LabContact submitter = sample.getSubmitter();
         LabContact verifier = sample.getVerifier();
         LocalDate dateSubmitted = sample.getDateSubmitted();
         LocalDate dateVerified = sample.getDateVerified();
-        AnalysisTemplate sampleTemplate=sample.getSampleTemplate();
+        AnalysisTemplate sampleTemplate = sample.getSampleTemplate();
 
         DiagnosticReport diagnosticReport = new DiagnosticReport();
         diagnosticReport.setId(UUID.randomUUID().toString());
-        
+
         diagnosticReport.setCode(new CodeableConcept(new Coding("urn:lims:code", sampleTemplate.getCode(), sampleTemplate.getTitle())));
         diagnosticReport.setSubject(task.getFor());
 
@@ -114,8 +129,6 @@ public class OrderResultIssuer {
         if (dateVerified != null) {
             diagnosticReport.setIssued(convertToDate(dateVerified));
         }
-        
-        
 
         return diagnosticReport;
     }
@@ -144,6 +157,28 @@ public class OrderResultIssuer {
         //Result
         observation.setValue(new Quantity().setValue(resultValue).setUnit(analysisService.getUnit()));
         return observation;
+    }
+
+    protected void addCriticalResult(Observation observation, boolean criticalResult) {
+        CodeableConcept codeableConcept = new CodeableConcept();
+        codeableConcept.setText("CRITICAL_RESULT");
+        Coding coding = new Coding();
+        coding.setSystem("urn:lims:code");
+        coding.setCode(String.valueOf(criticalResult));
+        coding.setDisplay(String.valueOf(criticalResult));
+        codeableConcept.addCoding(coding);
+        observation.addInterpretation(codeableConcept);
+    }
+
+    protected void addResultIntepretation(Observation observation, String interpretationCode, String interpretationText) {
+        CodeableConcept codeableConcept = new CodeableConcept();
+        codeableConcept.setText("RESULT_INTERPRETATION");
+        Coding coding = new Coding();
+        coding.setSystem("urn:lims:code");
+        coding.setCode(interpretationCode);
+        coding.setDisplay(interpretationText);
+        codeableConcept.addCoding(coding);
+        observation.addInterpretation(codeableConcept);
     }
 
     private static Reference getLabContactReference(LabContact labContact) {

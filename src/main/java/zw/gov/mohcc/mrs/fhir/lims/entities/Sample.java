@@ -51,6 +51,9 @@ public class Sample {
     private LocalDateTime dateRegistered;
     private LocalDateTime dateShrEntered;
     
+    private Boolean criticalResult;
+    
+    
 
    
     
