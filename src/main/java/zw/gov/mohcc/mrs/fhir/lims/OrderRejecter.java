@@ -20,7 +20,7 @@ public class OrderRejecter {
     public static void rejectOrder(Task task, Collection<RejectionReason> rejectionReasons) {
 
         task.setStatus(Task.TaskStatus.REJECTED);
-
+        
         Extension statusReasonsExtension = new Extension(STATUS_REASONS_EXTENSION_URL);
 
         for (RejectionReason rejectionReason : rejectionReasons) {

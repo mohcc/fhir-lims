@@ -17,7 +17,6 @@ import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Quantity;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
-import org.hl7.fhir.r4.model.StringType;
 import org.hl7.fhir.r4.model.Task;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisService;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisTemplate;
@@ -157,6 +156,11 @@ public class OrderResultIssuer {
         //Result
         observation.setValue(new Quantity().setValue(resultValue).setUnit(analysisService.getUnit()));
         return observation;
+    }
+    
+    public void addResultInterpretations(Observation observation){            
+        addResultIntepretation(observation, "HVL", "High Viral Load");
+        addResultIntepretation(observation, "VL", "1. VL <= 1000 copies/ml: Continue on current Regimen. 2. VL > 1000 copies/ml: Clinical and Counseling action Required");
     }
 
     protected void addCriticalResult(Observation observation, boolean criticalResult) {
