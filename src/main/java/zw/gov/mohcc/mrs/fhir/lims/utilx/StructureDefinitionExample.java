@@ -29,9 +29,18 @@ public class StructureDefinitionExample {
         }
 
         StructureDefinition structureDefinition
-                = (StructureDefinition) context.getValidationSupport().fetchStructureDefinition("Patient");
+                = (StructureDefinition) context.getValidationSupport().fetchStructureDefinition("Task");
 
-        System.out.println(structureDefinition);
+       StructureDefinitionWrapper structureDefinitionWrapper=new StructureDefinitionWrapper(structureDefinition);
+       
+       structureDefinitionWrapper.getSnapshotDefinitions().forEach(elementDefinition->{
+           System.out.println(elementDefinition.getId());
+       });
+       
+       
+        
+        
+
     }
 
 }
