@@ -50,6 +50,18 @@ public class OrderResultIssuer {
         List<Resource> fhirResources = new ArrayList<>();
 
         task.setStatus(Task.TaskStatus.COMPLETED);
+
+        boolean hasCriticalResults = false;
+
+        for (LabAnalysis labAnalysis : labAnalysisCollection) {
+            if (labAnalysis.getCritical() != null && labAnalysis.getCritical()) {
+                hasCriticalResults = true;
+                break;
+            }
+        }
+
+        sample.setCriticalResult(hasCriticalResults);
+
         if (sample.getCriticalResult() != null) {
             addCriticalResult(task, sample.getCriticalResult());
         }
@@ -155,15 +167,24 @@ public class OrderResultIssuer {
         observation.setCode(new CodeableConcept(new Coding("urn:lims:code", analysisService.getCode(), analysisService.getTitle())));
         //Result
         observation.setValue(new Quantity().setValue(resultValue).setUnit(analysisService.getUnit()));
+
+        if (labAnalysis.getCritical() != null) {
+            addCriticalResult(task, labAnalysis.getCritical());
+        }
+
+        if (labAnalysis.getInterpretationText() != null && !labAnalysis.getInterpretationText().isBlank()) {
+            addResultIntepretation(observation, "RESULT_INTERP", labAnalysis.getInterpretationText());
+        }
+
         return observation;
     }
-    
-    public void addResultInterpretations(Observation observation){            
+
+    public void addResultInterpretations(Observation observation) {
         addResultIntepretation(observation, "HVL", "High Viral Load");
         addResultIntepretation(observation, "VL", "1. VL <= 1000 copies/ml: Continue on current Regimen. 2. VL > 1000 copies/ml: Clinical and Counseling action Required");
     }
 
-    protected void addCriticalResult(Observation observation, boolean criticalResult) {
+    protected static void addCriticalResult(Observation observation, boolean criticalResult) {
         CodeableConcept codeableConcept = new CodeableConcept();
         codeableConcept.setText("CRITICAL_RESULT");
         Coding coding = new Coding();
@@ -174,7 +195,7 @@ public class OrderResultIssuer {
         observation.addInterpretation(codeableConcept);
     }
 
-    protected void addResultIntepretation(Observation observation, String interpretationCode, String interpretationText) {
+    protected static void addResultIntepretation(Observation observation, String interpretationCode, String interpretationText) {
         CodeableConcept codeableConcept = new CodeableConcept();
         codeableConcept.setText("RESULT_INTERPRETATION");
         Coding coding = new Coding();
