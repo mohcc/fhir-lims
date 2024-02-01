@@ -51,7 +51,7 @@ public class OrderResultIssuer {
 
         task.setStatus(Task.TaskStatus.COMPLETED);
 
-        boolean hasCriticalResults = false;
+        Boolean hasCriticalResults = null;
 
         for (LabAnalysis labAnalysis : labAnalysisCollection) {
             if (labAnalysis.getCritical() != null && labAnalysis.getCritical()) {
