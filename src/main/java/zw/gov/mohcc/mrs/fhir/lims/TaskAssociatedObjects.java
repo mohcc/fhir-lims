@@ -24,11 +24,11 @@ public class TaskAssociatedObjects {
         Specimen specimen = null; //Sample
         ServiceRequest serviceRequest = null; //Test
 
-        IGenericClient fhirClient = ShrFhirClientUtility.getFhirClient();
+        IGenericClient shrFhirClient = ShrFhirClientUtility.getFhirClient();
 
         String taskId = task.getIdElement().getIdPart();
 
-        Bundle bundle = fhirClient.search().forResource(Task.class)
+        Bundle bundle = shrFhirClient.search().forResource(Task.class)
                 .where(new TokenClientParam("_id").exactly().code(taskId))
                 .include(Task.INCLUDE_ALL)
                 .returnBundle(Bundle.class).execute();
@@ -60,7 +60,7 @@ public class TaskAssociatedObjects {
 
             String taskLaboratoryId = task.getLocation().getReferenceElement().getIdPart();
 
-            bundle = fhirClient.search().forResource(Location.class)
+            bundle = shrFhirClient.search().forResource(Location.class)
                     .where(new TokenClientParam("_id").exactly().code(taskLaboratoryId))
                     .include(Location.INCLUDE_ALL)
                     .returnBundle(Bundle.class).execute();
@@ -84,7 +84,7 @@ public class TaskAssociatedObjects {
 
             String patientManagingOrganizationId = patient.getManagingOrganization().getReferenceElement().getIdPart();
 
-            bundle = fhirClient.search().forResource(Organization.class)
+            bundle = shrFhirClient.search().forResource(Organization.class)
                     .where(new TokenClientParam("_id").exactly().code(patientManagingOrganizationId))
                     .include(Organization.INCLUDE_ALL)
                     .returnBundle(Bundle.class).execute();
@@ -103,12 +103,28 @@ public class TaskAssociatedObjects {
             }
         }
 
+        //For LIMS (from Mr Takudzwa Nhema)
+        if (patient != null) {
+            String patientId = patient.getIdElement().getIdPart();
+            System.out.println("Patient ID="+patientId);
+            try {
+                Patient crPatient = PatientFinder.findPatient(patientId);
+                if (crPatient != null) {
+                    patient = crPatient;
+                }else{
+                    System.out.println("Patient from CR is NULL");
+                }
+            } catch (Exception ex) {
+                System.out.println("*******Failed to get patient from CR**********");
+            }
+        }
+
         //Get Specimen (Sample)
         if (serviceRequest != null) {
 
             String serviceRequestId = serviceRequest.getIdElement().getIdPart();
 
-            bundle = fhirClient.search().forResource(ServiceRequest.class)
+            bundle = shrFhirClient.search().forResource(ServiceRequest.class)
                     .where(new TokenClientParam("_id").exactly().code(serviceRequestId))
                     .include(ServiceRequest.INCLUDE_ALL)
                     .returnBundle(Bundle.class).execute();
@@ -131,7 +147,7 @@ public class TaskAssociatedObjects {
         if (encounter != null) {
             String encounterId = encounter.getIdElement().getIdPart();
 
-            bundle = fhirClient.search().forResource(Encounter.class)
+            bundle = shrFhirClient.search().forResource(Encounter.class)
                     .where(new TokenClientParam("_id").exactly().code(encounterId))
                     .include(Encounter.INCLUDE_ALL)
                     .returnBundle(Bundle.class).execute();
