@@ -13,7 +13,7 @@ public class OrderFinder {
     
     public static Task findTaskById(String taskId){
         Task task=null;
-        IGenericClient fhirClient = FhirClientUtility.getFhirClient();
+        IGenericClient fhirClient = ShrFhirClientUtility.getFhirClient();
         Bundle bundle = fhirClient.search().forResource(Task.class)
                 .where(new TokenClientParam("_id").exactly().code(taskId))
                 .returnBundle(Bundle.class).execute();

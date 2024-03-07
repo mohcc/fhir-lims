@@ -24,7 +24,7 @@ public class TaskAssociatedObjects {
         Specimen specimen = null; //Sample
         ServiceRequest serviceRequest = null; //Test
 
-        IGenericClient fhirClient = FhirClientUtility.getFhirClient();
+        IGenericClient fhirClient = ShrFhirClientUtility.getFhirClient();
 
         String taskId = task.getIdElement().getIdPart();
 

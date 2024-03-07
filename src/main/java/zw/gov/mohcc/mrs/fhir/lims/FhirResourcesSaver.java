@@ -14,7 +14,7 @@ public class FhirResourcesSaver {
     //Save FHIR Resources (Task, Observation, Diagnostic Report etc) in the Shared Health Record (SHR):: OpenHIE
     public static void saveFhirResources(List<Resource> resources) {
 
-        IGenericClient client = FhirClientUtility.getFhirClient();
+        IGenericClient client = ShrFhirClientUtility.getFhirClient();
 
         Bundle transactionBundle = new Bundle();
         transactionBundle.setType(Bundle.BundleType.TRANSACTION);

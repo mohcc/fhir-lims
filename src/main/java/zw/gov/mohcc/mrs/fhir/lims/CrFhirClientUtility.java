@@ -4,7 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.interceptor.BasicAuthInterceptor;
 
-public class FhirClientUtility {
+public class CrFhirClientUtility {
 
     //Note:: The last forward slash is required for the baseUrl
     //In reality this should be autowired
@@ -14,7 +14,7 @@ public class FhirClientUtility {
 
     private static IGenericClient fhirClient;
 
-    private FhirClientUtility() {
+    private CrFhirClientUtility() {
     }
 
     public static IGenericClient getFhirClient() {

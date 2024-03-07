@@ -20,7 +20,7 @@ public class OrdersRetriever {
 
         List<Task> tasks = new ArrayList<>();
 
-        IGenericClient client = FhirClientUtility.getFhirClient();
+        IGenericClient client = ShrFhirClientUtility.getFhirClient();
 
         Bundle bundle = client.search().forResource(Task.class)
                 .where(Task.STATUS.exactly().code(Task.TaskStatus.REQUESTED.toCode()))
@@ -49,7 +49,7 @@ public class OrdersRetriever {
 
         List<Task> tasks = new ArrayList<>();
 
-        IGenericClient client = FhirClientUtility.getFhirClient();
+        IGenericClient client = ShrFhirClientUtility.getFhirClient();
 
         List<BaseIdentifierDt> theIdentifiers = clientIds.stream().map(clientId -> IdentifierDt.valueOf("urn:impilo:" + clientId + ":uid"))
                 .collect(Collectors.toList());
@@ -82,7 +82,7 @@ public class OrdersRetriever {
 
         List<Task> tasks = new ArrayList<>();
 
-        IGenericClient client = FhirClientUtility.getFhirClient();
+        IGenericClient client = ShrFhirClientUtility.getFhirClient();
 
         Bundle bundle = client.search().forResource(Task.class)
                 .returnBundle(Bundle.class)
