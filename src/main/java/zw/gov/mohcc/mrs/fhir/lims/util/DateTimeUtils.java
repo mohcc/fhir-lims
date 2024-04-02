@@ -7,19 +7,22 @@ import java.util.Date;
 
 public class DateTimeUtils {
 
+    public static final String HARARE_ZONE = "Africa/Harare";
+    public static final String DEFAULT_ZONE = HARARE_ZONE;
+
     private DateTimeUtils() {
 
     }
 
     public static LocalDate convertToLocalDate(Date dateToConvert) {
         return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
+                .atZone(ZoneId.of(DEFAULT_ZONE))
                 .toLocalDate();
     }
 
     public static LocalDateTime convertToLocalDateTime(Date dateToConvert) {
         return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
+                .atZone(ZoneId.of(DEFAULT_ZONE))
                 .toLocalDateTime();
     }
 
@@ -30,5 +33,4 @@ public class DateTimeUtils {
     public static Date convertToDate(LocalDateTime localDateTime) {
         return java.sql.Timestamp.valueOf(localDateTime);
     }
-
 }
