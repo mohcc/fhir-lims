@@ -17,6 +17,7 @@ import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Quantity;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.StringType;
 import org.hl7.fhir.r4.model.Task;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisService;
 import zw.gov.mohcc.mrs.fhir.lims.entities.AnalysisTemplate;
@@ -146,7 +147,7 @@ public class OrderResultIssuer {
 
     //Lab Analyses
     public static Observation getObservation(Sample sample, Task task, LabAnalysis labAnalysis) {
-        double resultValue = labAnalysis.getResultValue();
+        String resultValue = labAnalysis.getResultValue();
         AnalysisService analysisService = labAnalysis.getAnalysis();
         Method method = labAnalysis.getMethod();
         Instrument instrument = labAnalysis.getInstrument();
@@ -166,7 +167,9 @@ public class OrderResultIssuer {
         //AnalysisService coding
         observation.setCode(new CodeableConcept(new Coding("urn:lims:code", analysisService.getCode(), analysisService.getTitle())));
         //Result
-        observation.setValue(new Quantity().setValue(resultValue).setUnit(analysisService.getUnit()));
+        //observation.setValue(new Quantity().setValue(resultValue).setUnit(analysisService.getUnit()));
+        observation.setValue(new StringType(resultValue));
+
 
         if (labAnalysis.getCritical() != null) {
             addCriticalResult(task, labAnalysis.getCritical());

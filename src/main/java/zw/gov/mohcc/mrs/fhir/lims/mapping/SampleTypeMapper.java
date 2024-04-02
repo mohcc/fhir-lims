@@ -11,13 +11,14 @@ public class SampleTypeMapper {
 
     static {
         createSampleType("LST006", "Blood plasma", "IST0002");
+        createSampleType("LST002", "Aspirate", "IST0004");
     }
-    
-    public static SampleType findByImpiloCode(String impiloCode){
+
+    public static SampleType findByImpiloCode(String impiloCode) {
         return impiloMap.get(impiloCode);
     }
-    
-    public static SampleType findByLimsCode(String limsCode){
+
+    public static SampleType findByLimsCode(String limsCode) {
         return limsMap.get(limsCode);
     }
 
@@ -32,7 +33,5 @@ public class SampleTypeMapper {
         }
 
     }
-    
-    
 
 }

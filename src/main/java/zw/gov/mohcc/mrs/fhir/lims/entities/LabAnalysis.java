@@ -8,7 +8,7 @@ public class LabAnalysis {
 
     private AnalysisService analysis;
     private Method method;
-    private Double resultValue;
+    private String resultValue;
     private LocalDate dueDate;
     private Instrument instrument;
     private LabContact analyst;
