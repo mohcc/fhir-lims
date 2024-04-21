@@ -14,8 +14,7 @@ public class AnalysisTemplateMapper {
         createAnalysisTemplate("LTT006", "GeneXpert", "ILT0042");
         createAnalysisTemplate("LTT0012", "HIV Viral Load DBS", "ILT0047");
         createAnalysisTemplate("LTT009", "Examination", "ILT0056");
-        
-        
+        createAnalysisTemplate("ILT0012", "Examination", "ILT0056");          
     }
     
     public static AnalysisTemplate findByImpiloCode(String impiloCode){

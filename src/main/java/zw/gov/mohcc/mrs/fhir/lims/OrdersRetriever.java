@@ -1,6 +1,8 @@
 package zw.gov.mohcc.mrs.fhir.lims;
 
 import ca.uhn.fhir.model.base.composite.BaseIdentifierDt;
+import ca.uhn.fhir.rest.api.SortOrderEnum;
+import ca.uhn.fhir.rest.api.SortSpec;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,8 @@ public class OrdersRetriever {
         return tasks;
 
     }
+    
+    
 
     //Get Lab Request Orders from Impilo Facilities or Sites in Fhir format
     public static List<Task> getRequestedTasks(Task.TaskStatus status, List<String> clientIds) {
@@ -85,6 +89,36 @@ public class OrdersRetriever {
         IGenericClient client = ShrFhirClientUtility.getFhirClient();
 
         Bundle bundle = client.search().forResource(Task.class)
+                .returnBundle(Bundle.class)
+                .execute();
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+            if (entry.hasResource()) {
+                switch (entry.getResource().getResourceType()) {
+                    case Task:
+                        Task task = (Task) entry.getResource();
+                        tasks.add(task);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        return tasks;
+
+    }
+    
+    
+    public static List<Task> getRequestedTasksLastUpdatedDesc() {
+
+        List<Task> tasks = new ArrayList<>();
+
+        IGenericClient client = ShrFhirClientUtility.getFhirClient();
+
+        Bundle bundle = client.search().forResource(Task.class)
+                .where(Task.STATUS.exactly().code(Task.TaskStatus.REQUESTED.toCode()))
+                .sort(new SortSpec("_lastUpdated", SortOrderEnum.DESC))
                 .returnBundle(Bundle.class)
                 .execute();
 
