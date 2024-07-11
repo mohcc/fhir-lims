@@ -46,6 +46,7 @@ public class TaskAssociatedObjects {
                         serviceRequest = (ServiceRequest) entry.getResource();
                         break;
                     case Patient:
+                        //This is a shallow patient record from the SHR, without demographics (eg. name, address, contacts etc)
                         patient = (Patient) entry.getResource();
                         break;
                     default:
@@ -103,11 +104,12 @@ public class TaskAssociatedObjects {
             }
         }
 
-        //For LIMS (from Mr Takudzwa Nhema)
+        ///NB: LIMS team 
         if (patient != null) {
             String patientId = patient.getIdElement().getIdPart();
             System.out.println("Patient ID="+patientId);
             try {
+                //Retrieve the entire patient from the client registry (CR)
                 Patient crPatient = PatientFinder.findPatient(patientId);
                 if (crPatient != null) {
                     patient = crPatient;

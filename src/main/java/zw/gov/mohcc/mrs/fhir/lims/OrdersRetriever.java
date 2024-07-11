@@ -118,7 +118,7 @@ public class OrdersRetriever {
 
         Bundle bundle = client.search().forResource(Task.class)
                 .where(Task.STATUS.exactly().code(Task.TaskStatus.REQUESTED.toCode()))
-                .sort(new SortSpec("_lastUpdated", SortOrderEnum.DESC))
+                .sort(new SortSpec("authored-on", SortOrderEnum.DESC))
                 .returnBundle(Bundle.class)
                 .execute();
 
@@ -126,7 +126,7 @@ public class OrdersRetriever {
             if (entry.hasResource()) {
                 switch (entry.getResource().getResourceType()) {
                     case Task:
-                        Task task = (Task) entry.getResource();
+                        Task task = (Task) entry.getResource();                        
                         tasks.add(task);
                         break;
                     default:
