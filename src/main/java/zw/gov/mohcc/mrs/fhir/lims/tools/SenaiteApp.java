@@ -3,7 +3,6 @@ package zw.gov.mohcc.mrs.fhir.lims.tools;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.HttpClient;
@@ -168,7 +167,7 @@ public class SenaiteApp {
         for (final var portalType : portalTypes) {
             final var clients = Objects.requireNonNull(client.getPortalType(new GetPortalTypeRequest().withPortalType(portalType)).getBody()).getItems();
             int count = 0;
-            for (JsonNode jsonNode : clients) {
+            for (final var jsonNode : clients) {
                 count++;
                 if(count < 4){
                     try {

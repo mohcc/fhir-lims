@@ -41,6 +41,68 @@
       "output": "#/schemas/LIMSPortalTypePage",
       "summary": "Get portal type"
     },
+    "CreatePortalType": {
+      "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
+      "errors": [],
+      "http": {
+        "consumes": [
+          "application/json"
+        ],
+        "method": "POST",
+        "path": "/{portalType}",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Portal Types"
+        ]
+      },
+      "input": "#/schemas/LIMSCreatePortalTypeRequest",
+      "output": "#/schemas/LIMSPortalTypePage",
+      "summary": "Get portal type"
+    },
+    "UpdatePortalType": {
+      "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
+      "errors": [],
+      "http": {
+        "consumes": [
+          "application/json"
+        ],
+        "method": "POST",
+        "path": "/{portalType}/{resourceId}",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Portal Types"
+        ]
+      },
+      "input": "#/schemas/LIMSUpdatePortalTypeRequest",
+      "output": "#/schemas/LIMSPortalTypePage",
+      "summary": "Get portal type"
+    },
+    "DeletePortalType": {
+      "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
+      "errors": [],
+      "http": {
+        "consumes": [
+        ],
+        "method": "DELETE",
+        "path": "/{portalType}/{resourceId}",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Portal Types"
+        ]
+      },
+      "input": "#/schemas/LIMSDeletePortalTypeRequest",
+      "output": "#/schemas/LIMSPortalTypePage",
+      "summary": "Get portal type"
+    },
     "Login": {
       "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
       "errors": [],
@@ -232,6 +294,57 @@
         "url"
       ],
       "title": "Client",
+      "type": "object"
+    },
+    "LIMSCreatePortalTypeRequest": {
+      "name": "CreatePortalTypeRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "portalType": {
+          "in": "path",
+          "type": "string"
+        },
+        "request": {
+          "in": "body",
+          "required": true,
+          "type": "#/schemas/JsonNode"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSUpdatePortalTypeRequest": {
+      "name": "UpdatePortalTypeRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "portalType": {
+          "in": "path",
+          "type": "string"
+        },
+        "resourceId": {
+          "in": "path",
+          "type": "string"
+        },
+        "request": {
+          "in": "body",
+          "required": true,
+          "type": "#/schemas/JsonNode"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSDeletePortalTypeRequest": {
+      "name": "DeletePortalTypeRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "portalType": {
+          "in": "path",
+          "type": "string"
+        },
+        "resourceId": {
+          "in": "path",
+          "type": "string"
+        }
+      },
       "type": "object"
     },
     "LIMSGetPortalTypeRequest": {

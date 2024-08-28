@@ -10,11 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import zw.gov.mohcc.lims.client.models.CreatePortalTypeRequest;
+import zw.gov.mohcc.lims.client.models.DeletePortalTypeRequest;
 import zw.gov.mohcc.lims.client.models.GetPortalTypeRequest;
 import zw.gov.mohcc.lims.client.models.LoginRequest;
 import zw.gov.mohcc.lims.client.models.LogoutRequest;
 import zw.gov.mohcc.lims.client.models.LogoutResponse;
 import zw.gov.mohcc.lims.client.models.PortalTypePage;
+import zw.gov.mohcc.lims.client.models.UpdatePortalTypeRequest;
 import zw.gov.mohcc.lims.client.models.UserPage;
 
 @SuppressWarnings({
@@ -62,6 +65,41 @@ class LIMSClientImpl implements LIMSClient {
         headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         defaultHeaders.forEach(headers::set);
         return restTemplate.exchange(endpoint, HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                        PortalTypePage.class);
+    }
+
+    public ResponseEntity<PortalTypePage> createPortalType(
+            CreatePortalTypeRequest createPortalTypeRequest) {
+        final var endpoint  = url + "/" + createPortalTypeRequest.getPortalType();
+        final var headers  = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        defaultHeaders.forEach(headers::set);
+        return restTemplate.exchange(endpoint, HttpMethod.POST,
+                    new HttpEntity<>(createPortalTypeRequest.getRequest(), headers),
+                        PortalTypePage.class);
+    }
+
+    public ResponseEntity<PortalTypePage> updatePortalType(
+            UpdatePortalTypeRequest updatePortalTypeRequest) {
+        final var endpoint  = url + "/" + updatePortalTypeRequest.getPortalType() + "/" + updatePortalTypeRequest.getResourceId();
+        final var headers  = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        defaultHeaders.forEach(headers::set);
+        return restTemplate.exchange(endpoint, HttpMethod.POST,
+                    new HttpEntity<>(updatePortalTypeRequest.getRequest(), headers),
+                        PortalTypePage.class);
+    }
+
+    public ResponseEntity<PortalTypePage> deletePortalType(
+            DeletePortalTypeRequest deletePortalTypeRequest) {
+        final var endpoint  = url + "/" + deletePortalTypeRequest.getPortalType() + "/" + deletePortalTypeRequest.getResourceId();
+        final var headers  = new HttpHeaders();
+        headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        defaultHeaders.forEach(headers::set);
+        return restTemplate.exchange(endpoint, HttpMethod.DELETE,
                     new HttpEntity<>(headers),
                         PortalTypePage.class);
     }
