@@ -29,9 +29,12 @@ public class StructureDefinitionWrapper implements IStructureDefinition{
 
     @Override
     public List<IElementDefinition> getSnapshotDefinitions() {
-      return structureDefinition.getSnapshot().getElement().stream()
-          .map(d -> new ElementDefinitionWrapper(d))
-          .collect(Collectors.toList());
+      return structureDefinition
+              .getSnapshot()
+              .getElement()
+              .stream()
+              .map(ElementDefinitionWrapper::new)
+              .collect(Collectors.toList());
     }
     
 }

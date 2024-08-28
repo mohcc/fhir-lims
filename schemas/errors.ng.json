@@ -1,0 +1,87 @@
+{
+  "schemas": {
+    "BadCredentialsException": {
+      "export": false,
+      "namespace": "org.springframework.security.authentication",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 401,
+      "type": "exception"
+    },
+    "EntityExistsException": {
+      "export": false,
+      "namespace": "javax.persistence",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 409,
+      "type": "exception"
+    },
+    "EntityNotFoundException": {
+      "export": false,
+      "namespace": "javax.persistence",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 404,
+      "type": "exception"
+    },
+    "HttpRequestMethodNotSupportedException": {
+      "export": false,
+      "namespace": "org.springframework.security.authentication",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 405,
+      "type": "exception"
+    },
+    "HttpTimeoutException": {
+      "export": false,
+      "namespace": "java.net.http",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 429,
+      "type": "exception"
+    },
+    "IllegalArgumentException": {
+      "export": false,
+      "namespace": "java.lang",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 400,
+      "type": "exception"
+    },
+    "InsufficientAuthenticationException": {
+      "export": false,
+      "namespace": "org.springframework.security.authentication",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 403,
+      "type": "exception"
+    },
+    "NotAcceptableException": {
+      "export": false,
+      "namespace": "org.springframework.security.authentication",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 406,
+      "type": "exception"
+    },
+    "PaymentRequiredException": {
+      "export": false,
+      "namespace": "org.springframework.security.authentication",
+      "problem": "#/schemas/Problem",
+      "properties": {},
+      "status": 402,
+      "type": "exception"
+    },
+    "Problem": {
+      "name": "Problem",
+      "namespace": "org.zalando.problem",
+      "export": false,
+      "type": "interface"
+    },
+    "JsonNode": {
+      "namespace": "com.fasterxml.jackson.databind",
+      "export": false,
+      "type": "object"
+    }
+  }
+}
