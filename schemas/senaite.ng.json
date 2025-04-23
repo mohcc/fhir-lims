@@ -1,0 +1,574 @@
+{
+  "imports": [
+    "errors.ng.json"
+  ],
+  "json": true,
+  "metadata": {
+    "apiVersion": "2024-08-28",
+    "client": "LIMSClient",
+    "errors": [
+      "#/schemas/IllegalArgumentException",
+      "#/schemas/BadCredentialsException",
+      "#/schemas/PaymentRequiredException",
+      "#/schemas/InsufficientAuthenticationException",
+      "#/schemas/EntityNotFoundException",
+      "#/schemas/HttpRequestMethodNotSupportedException",
+      "#/schemas/NotAcceptableException",
+      "#/schemas/EntityExistsException",
+      "#/schemas/HttpTimeoutException"
+    ],
+    "namespace": "zw.gov.mohcc.lims.client",
+    "output": "resttemplate"
+  },
+  "namespace": "zw.gov.mohcc.lims.client",
+  "operations": {
+    "GetPortalType": {
+      "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
+      "errors": [],
+      "http": {
+        "consumes": [],
+        "method": "GET",
+        "path": "/{portalType}",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Portal Types"
+        ]
+      },
+      "input": "#/schemas/LIMSGetPortalTypeRequest",
+      "output": "#/schemas/LIMSPortalTypePage",
+      "summary": "Get portal type"
+    },
+    "CreatePortalType": {
+      "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
+      "errors": [],
+      "http": {
+        "consumes": [
+          "application/json"
+        ],
+        "method": "POST",
+        "path": "/{portalType}",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Portal Types"
+        ]
+      },
+      "input": "#/schemas/LIMSCreatePortalTypeRequest",
+      "output": "#/schemas/LIMSPortalTypePage",
+      "summary": "Get portal type"
+    },
+    "UpdatePortalType": {
+      "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
+      "errors": [],
+      "http": {
+        "consumes": [
+          "application/json"
+        ],
+        "method": "POST",
+        "path": "/{portalType}/{resourceId}",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Portal Types"
+        ]
+      },
+      "input": "#/schemas/LIMSUpdatePortalTypeRequest",
+      "output": "#/schemas/LIMSPortalTypePage",
+      "summary": "Get portal type"
+    },
+    "DeletePortalType": {
+      "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
+      "errors": [],
+      "http": {
+        "consumes": [
+        ],
+        "method": "DELETE",
+        "path": "/{portalType}/{resourceId}",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Portal Types"
+        ]
+      },
+      "input": "#/schemas/LIMSDeletePortalTypeRequest",
+      "output": "#/schemas/LIMSPortalTypePage",
+      "summary": "Get portal type"
+    },
+    "Login": {
+      "description": "The API provides a simple way to authenticate a user with SENAITE.\nThe response will set the __ac cookie for further cookie authenticated requests.",
+      "errors": [],
+      "http": {
+        "consumes": [],
+        "method": "POST",
+        "path": "/login",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Authentication"
+        ]
+      },
+      "input": "#/schemas/LIMSLoginRequest",
+      "output": "#/schemas/LIMSUserPage",
+      "summary": "Login"
+    },
+    "Logout": {
+      "description": "The response will expire the __ac cookie for further requests.",
+      "errors": [],
+      "http": {
+        "consumes": [],
+        "method": "POST",
+        "path": "/users/logout",
+        "produces": [
+          "application/json"
+        ],
+        "status": 200,
+        "tags": [
+          "Authentication"
+        ]
+      },
+      "input": "#/schemas/LIMSLogoutRequest",
+      "output": "#/schemas/LIMSLogoutResponse",
+      "summary": "Logout"
+    }
+  },
+  "schemas": {
+    "LIMSClient": {
+      "name": "Client",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "Analyst": {
+          "type": "string"
+        },
+        "allowedRolesAndUsers": {
+          "generic": "array",
+          "type": "string"
+        },
+        "analysisRequestTemplates": {
+          "type": "string"
+        },
+        "api_url": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "effective": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "end": {
+          "type": "string"
+        },
+        "exclude_from_nav": {
+          "type": "boolean"
+        },
+        "expires": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "getClientID": {
+          "alias": "clientId",
+          "type": "string"
+        },
+        "getCountry": {
+          "alias": "country",
+          "type": "string"
+        },
+        "getDistrict": {
+          "alias": "district",
+          "type": "string"
+        },
+        "getDoctorID": {
+          "alias": "doctorId",
+          "type": "string"
+        },
+        "getDoctorUID": {
+          "type": "string"
+        },
+        "getProvince": {
+          "alias": "province",
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_folderish": {
+          "type": "boolean"
+        },
+        "location": {
+          "type": "string"
+        },
+        "modified": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "parent_id": {
+          "type": "string"
+        },
+        "parent_path": {
+          "type": "string"
+        },
+        "parent_uid": {
+          "type": "string"
+        },
+        "parent_url": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "portal_type": {
+          "type": "string"
+        },
+        "review_state": {
+          "type": "string"
+        },
+        "start": {
+          "type": "string"
+        },
+        "tags": {
+          "generic": "list",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Analyst",
+        "allowedRolesAndUsers",
+        "analysisRequestTemplates",
+        "api_url",
+        "author",
+        "created",
+        "description",
+        "effective",
+        "end",
+        "exclude_from_nav",
+        "expires",
+        "getClientID",
+        "getCountry",
+        "getDistrict",
+        "getDoctorID",
+        "getDoctorUID",
+        "getProvince",
+        "id",
+        "is_folderish",
+        "location",
+        "modified",
+        "parent_id",
+        "parent_path",
+        "parent_uid",
+        "parent_url",
+        "path",
+        "portal_type",
+        "review_state",
+        "start",
+        "tags",
+        "title",
+        "uid",
+        "url"
+      ],
+      "title": "Client",
+      "type": "object"
+    },
+    "LIMSCreatePortalTypeRequest": {
+      "name": "CreatePortalTypeRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "portalType": {
+          "in": "path",
+          "type": "string"
+        },
+        "request": {
+          "in": "body",
+          "required": true,
+          "type": "#/schemas/JsonNode"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSUpdatePortalTypeRequest": {
+      "name": "UpdatePortalTypeRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "portalType": {
+          "in": "path",
+          "type": "string"
+        },
+        "resourceId": {
+          "in": "path",
+          "type": "string"
+        },
+        "request": {
+          "in": "body",
+          "required": true,
+          "type": "#/schemas/JsonNode"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSDeletePortalTypeRequest": {
+      "name": "DeletePortalTypeRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "portalType": {
+          "in": "path",
+          "type": "string"
+        },
+        "resourceId": {
+          "in": "path",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSGetPortalTypeRequest": {
+      "name": "GetPortalTypeRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "portalType": {
+          "in": "path",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSLoginRequest": {
+      "name": "LoginRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "__ac_name": {
+          "alias": "username",
+          "description": "The username",
+          "in": "query",
+          "type": "string"
+        },
+        "__ac_password": {
+          "alias": "password",
+          "description": "The password",
+          "in": "query",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSLoginResponse": {
+      "name": "LoginResponse",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {},
+      "type": "object"
+    },
+    "LIMSLogoutRequest": {
+      "name": "LogoutRequest",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {},
+      "type": "object"
+    },
+    "LIMSLogoutResponse": {
+      "name": "LogoutResponse",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "_runtime": {
+          "alias": "runtime",
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSPage": {
+      "name": "Page",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "_runtime": {
+          "alias": "runtime",
+          "type": "number"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "items": {
+          "generic": "list",
+          "type": "T"
+        },
+        "next": {
+          "type": "string"
+        },
+        "page": {
+          "type": "integer"
+        },
+        "pages": {
+          "type": "integer"
+        },
+        "pagesize": {
+          "type": "integer"
+        },
+        "previous": {
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "type": "interface",
+      "variables": [
+        "T"
+      ]
+    },
+    "LIMSPortalTypePage": {
+      "allOf": [
+        "#/schemas/LIMSPage"
+      ],
+      "implements": [
+        {
+          "bounds": [
+            "#/schemas/JsonNode"
+          ],
+          "parameter": "#/schemas/LIMSPage"
+        }
+      ],
+      "name": "PortalTypePage",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "items": {
+          "generic": "list",
+          "type": "#/schemas/JsonNode"
+        }
+      },
+      "type": "object"
+    },
+    "LIMSUser": {
+      "name": "User",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "api_url": {
+          "format": "uri",
+          "qt-uri-protocols": [
+            "http"
+          ],
+          "type": "string"
+        },
+        "authenticated": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "error_log_update": {
+          "type": "integer"
+        },
+        "ext_editor": {
+          "type": "boolean"
+        },
+        "fullname": {
+          "type": "string"
+        },
+        "groups": {
+          "generic": "list",
+          "type": "string"
+        },
+        "home_page": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "last_login_time": {
+          "type": "string"
+        },
+        "linked_contact_uid": {
+          "type": "string"
+        },
+        "listed": {
+          "type": "boolean"
+        },
+        "location": {
+          "type": "string"
+        },
+        "login_time": {
+          "type": "string"
+        },
+        "portal_skin": {
+          "type": "string"
+        },
+        "roles": {
+          "generic": "list",
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "visible_ids": {
+          "type": "boolean"
+        },
+        "wysiwyg_editor": {
+          "type": "string"
+        }
+      },
+      "title": "Item",
+      "type": "object"
+    },
+    "LIMSUserPage": {
+      "allOf": [
+        "#/schemas/LIMSPage"
+      ],
+      "implements": [
+        {
+          "bounds": [
+            "#/schemas/LIMSUser"
+          ],
+          "parameter": "#/schemas/LIMSPage"
+        }
+      ],
+      "name": "UserPage",
+      "namespace": "zw.gov.mohcc.lims.client.models",
+      "properties": {
+        "items": {
+          "generic": "list",
+          "type": "#/schemas/LIMSUser"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

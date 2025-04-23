@@ -2,9 +2,12 @@ package zw.gov.mohcc.mrs.fhir.lims.utilx;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.hl7.fhir.r4.model.CanonicalType;
 import org.hl7.fhir.r4.model.ElementDefinition;
+import org.hl7.fhir.r4.model.ElementDefinition.TypeRefComponent;
+import org.hl7.fhir.r4.model.PrimitiveType;
 
 public class ElementDefinitionWrapper implements IElementDefinition {
 
@@ -47,7 +50,7 @@ public class ElementDefinitionWrapper implements IElementDefinition {
     @Override
     public List<String> getAllTypeCodes() {
         return elementDefinition.getType().stream()
-                .map(t -> t.getCode())
+                .map(TypeRefComponent::getCode)
                 .collect(Collectors.toList());
     }
 
@@ -73,13 +76,13 @@ public class ElementDefinitionWrapper implements IElementDefinition {
     public List<String> getReferenceTargetProfiles() {
         return elementDefinition.getType().stream()
                 .filter(type -> "Reference".equals(type.getCode()))
-                .filter(type -> type.getTargetProfile() != null)
-                .map(type -> type.getTargetProfile())
+                .map(TypeRefComponent::getTargetProfile)
+                .filter(Objects::nonNull)
                 // Note there is a difference between how `Reference` types are represented in R4 vs STU3,
                 // in R4 all "target profiles" (i.e., reference's target type) are under the same `type`
                 // while in STU3 we have multiple `type` each with a single target-profile.
                 .flatMap(Collection::stream)
-                .map(profile -> profile.getValue())
+                .map(PrimitiveType::getValue)
                 .collect(Collectors.toList());
     }
 
