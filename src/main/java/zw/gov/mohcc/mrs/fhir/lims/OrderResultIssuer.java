@@ -119,7 +119,6 @@ public class OrderResultIssuer {
 
         diagnosticReport.setCode(new CodeableConcept(new Coding("urn:lims:code", sampleTemplate.getCode(), sampleTemplate.getTitle())));
         diagnosticReport.setSubject(task.getFor());
-
         //Submitter
         if (submitter != null) {
             Reference submitterReference = getLabContactReference(submitter);

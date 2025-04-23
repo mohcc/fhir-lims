@@ -13,6 +13,8 @@ public class LimsPatient {
     
     private String patientId;
     
+    private Boolean anonymous;
+    
     //Default
     @EqualsAndHashCode.Include
     private String clientPatientId;

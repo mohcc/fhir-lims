@@ -28,7 +28,9 @@ public class OrdersRetriever {
                 .where(Task.STATUS.exactly().code(Task.TaskStatus.REQUESTED.toCode()))
                 .returnBundle(Bundle.class)
                 .execute();
-
+        
+        
+        
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
             if (entry.hasResource()) {
                 switch (entry.getResource().getResourceType()) {
@@ -110,14 +112,14 @@ public class OrdersRetriever {
     }
     
     
-    public static List<Task> getRequestedTasksLastUpdatedDesc() {
+    public static List<Task> getRequestedTasksLastUpdatedDesc(List<Task.TaskStatus> taskStatuses) {
 
         List<Task> tasks = new ArrayList<>();
 
         IGenericClient client = ShrFhirClientUtility.getFhirClient();
 
         Bundle bundle = client.search().forResource(Task.class)
-                .where(Task.STATUS.exactly().code(Task.TaskStatus.REQUESTED.toCode()))
+                .where(Task.STATUS.exactly().codes(taskStatuses.stream().map(Task.TaskStatus::toCode).collect(Collectors.toList())))
                 .sort(new SortSpec("authored-on", SortOrderEnum.DESC))
                 .returnBundle(Bundle.class)
                 .execute();
